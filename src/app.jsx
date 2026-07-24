@@ -20,7 +20,7 @@ const COMMANDS = [
   { id: 'new', label: '/new', tag: 'clear this session' },
   { id: 'cost', label: '/cost', tag: 'token usage so far' },
   { id: 'help', label: '/help', tag: 'keybinds and commands' },
-  { id: 'quit', label: '/quit', tag: 'exit polycli' },
+  { id: 'quit', label: '/quit', tag: 'exit pixelcli' },
 ];
 
 const shortCwd = () => {
@@ -193,7 +193,7 @@ export default function App() {
       return setPos(pos - 1);
     }
     // a multi-byte chunk is a paste; strip the control bytes it carries
-    const text = input?.replace(/[\u0000-\u001f\u007f]/g, '') ?? '';
+    const text = input?.replace(/[\u0000-\u001f\u007f]/g, "") ?? "";
     if (text && !key.ctrl && !key.meta && !key.escape) {
       setValue(value.slice(0, pos) + text + value.slice(pos));
       return setPos(pos + text.length);

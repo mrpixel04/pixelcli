@@ -30,7 +30,7 @@ src/
   app.jsx           all state, ALL key handling, view switching
   providers.js      provider catalog + the four streaming adapters
   auth.js           key storage: env -> keychain -> file
-  config.js         ~/.config/polycli/config.json
+  config.js         ~/.config/pixelcli/config.json
   theme.js          colours, including per-provider accents
   components/       presentational only, no key handling
 test/
@@ -55,7 +55,7 @@ of strings. Providers that speak the OpenAI chat-completions shape route to
 `adapters.openaiCompatible` with a base URL — that is a one-line addition.
 Anthropic and Gemini have their own because their wire formats differ.
 
-**Never let tests touch real state.** `POLYCLI_CONFIG_DIR` overrides the config
+**Never let tests touch real state.** `PIXELCLI_CONFIG_DIR` overrides the config
 directory, and setting it also makes `auth.js` skip the macOS Keychain
 entirely. The test script sets it to a `mktemp -d`. This exists because an
 early test run overwrote a real config file.
@@ -104,7 +104,7 @@ byte and produced a convincing false failure for `^o`. Use
 
 1. Verify every model ID in `providers.js` against the provider's current docs.
    These came from training data and go stale. A wrong ID produces a 404 that
-   reads like a polycli bug.
+   reads like a pixelcli bug.
 2. `npm test`
 3. `npm pack` and check the tarball contains only `dist/cli.js`, `package.json`,
    `README.md`

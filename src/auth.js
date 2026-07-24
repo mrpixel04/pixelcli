@@ -4,12 +4,12 @@ import path from 'node:path';
 import os from 'node:os';
 import { providers } from './providers.js';
 
-const overrideDir = process.env.POLYCLI_CONFIG_DIR;
+const overrideDir = process.env.PIXELCLI_CONFIG_DIR;
 // an overridden config dir means a sandboxed profile, so stay out of the Keychain
 const isMac = process.platform === 'darwin' && !overrideDir;
-const dir = overrideDir ?? path.join(os.homedir(), '.config', 'polycli');
+const dir = overrideDir ?? path.join(os.homedir(), '.config', 'pixelcli');
 const fallbackFile = path.join(dir, 'keys.json');
-const service = (provider) => `polycli.${provider}`;
+const service = (provider) => `pixelcli.${provider}`;
 
 function ensureDir() {
   fs.mkdirSync(dir, { recursive: true, mode: 0o700 });
@@ -32,7 +32,7 @@ function keychainGet(provider) {
   try {
     return execFileSync(
       'security',
-      ['find-generic-password', '-a', 'polycli', '-s', service(provider), '-w'],
+      ['find-generic-password', '-a', 'pixelcli', '-s', service(provider), '-w'],
       { encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] },
     ).trim();
   } catch {
@@ -43,7 +43,7 @@ function keychainGet(provider) {
 function keychainSet(provider, key) {
   execFileSync(
     'security',
-    ['add-generic-password', '-a', 'polycli', '-s', service(provider), '-w', key, '-U'],
+    ['add-generic-password', '-a', 'pixelcli', '-s', service(provider), '-w', key, '-U'],
     { stdio: 'ignore' },
   );
 }
@@ -52,7 +52,7 @@ function keychainDelete(provider) {
   try {
     execFileSync(
       'security',
-      ['delete-generic-password', '-a', 'polycli', '-s', service(provider)],
+      ['delete-generic-password', '-a', 'pixelcli', '-s', service(provider)],
       { stdio: 'ignore' },
     );
   } catch {

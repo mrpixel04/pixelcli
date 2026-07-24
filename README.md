@@ -1,10 +1,10 @@
-# polycli
+# pixelcli
 
 One terminal chat UI for Anthropic, DeepSeek, OpenAI and Gemini. Switch model
 mid-conversation without losing the thread.
 
 ```
- ▲ polycli v0.1.0                      ~/dev/myapp  ⎇ main*  ● claude-sonnet-4-6
+ ◆ pixelcli v0.1.0                     ~/dev/myapp  ⎇ main  ● claude-sonnet-4-6
 
  › explain this stack trace
 
@@ -19,16 +19,26 @@ mid-conversation without losing the thread.
 
 ## Install
 
-Not published to npm — install straight from a GitHub release.
+Not published to npm. Install globally straight from GitHub — after this,
+`pixelcli` is on your PATH and runs from any folder.
 
 ```sh
-npm install -g https://github.com/YOUR_USER/polycli/releases/download/v0.1.0/polycli-0.1.0.tgz
+# from the repo (builds and links the global bin)
+git clone https://github.com/mrpixel04/pixelcli.git
+cd pixelcli
+npm install -g .
 ```
 
-Or from the repo, which builds on install:
+Or in one line from the repo, which builds on install:
 
 ```sh
-npm install -g github:YOUR_USER/polycli
+npm install -g github:mrpixel04/pixelcli
+```
+
+Or from a release tarball, which ships prebuilt:
+
+```sh
+npm install -g https://github.com/mrpixel04/pixelcli/releases/download/v0.1.0/pixelcli-0.1.0.tgz
 ```
 
 Requires Node 18 or newer. macOS and Linux today; Windows works apart from
@@ -37,9 +47,9 @@ Keychain storage, which falls back to a `0600` file.
 ## First run
 
 ```sh
-polycli          # start a session
-/auth            # add a provider key
-/model           # pick a default model
+pixelcli          # start a session
+/auth             # add a provider key
+/model            # pick a default model
 ```
 
 ## Keys
@@ -48,13 +58,13 @@ Checked in this order, first hit wins:
 
 1. Environment variable — `ANTHROPIC_API_KEY`, `DEEPSEEK_API_KEY`,
    `OPENAI_API_KEY`, `GEMINI_API_KEY`
-2. macOS Keychain, under service `polycli.<provider>`
-3. `~/.config/polycli/keys.json`, mode `0600`
+2. macOS Keychain, under service `pixelcli.<provider>`
+3. `~/.config/pixelcli/keys.json`, mode `0600`
 
-Keys are never written to `config.json`. To inspect what polycli can see:
+Keys are never written to `config.json`. To inspect what pixelcli can see:
 
 ```sh
-polycli --auth
+pixelcli --auth
 ```
 
 ## Commands
@@ -78,17 +88,17 @@ bound to anything.
 ## Flags
 
 ```sh
-polycli -p "one-shot question"   # print an answer to stdout, no TUI
-polycli --model deepseek-chat    # set the model and start
-polycli --models                 # list models
-polycli --auth                   # key status
-polycli --config                 # config file path
+pixelcli -p "one-shot question"   # print an answer to stdout, no TUI
+pixelcli --model deepseek-chat    # set the model and start
+pixelcli --models                 # list models
+pixelcli --auth                   # key status
+pixelcli --config                 # config file path
 ```
 
 Because `-p` writes plain text to stdout, it pipes:
 
 ```sh
-git diff | polycli -p "write a commit message for this diff"
+git diff | pixelcli -p "write a commit message for this diff"
 ```
 
 ## Adding a provider
@@ -112,13 +122,13 @@ npm test        # key handling + stream parsing
 ```
 
 `npm test` drives real key events through the app with `ink-testing-library`
-and runs the four stream parsers against a mock SSE server that deliberately
-splits a frame across chunks.
+and runs the stream parsers against a mock SSE server that deliberately splits a
+frame across chunks.
 
 ## Release
 
 ```sh
 npm version patch
-npm pack                  # builds dist/, emits polycli-x.y.z.tgz
-gh release create v0.1.0 polycli-0.1.0.tgz
+npm pack                  # builds dist/, emits pixelcli-x.y.z.tgz
+gh release create v0.1.0 pixelcli-0.1.0.tgz
 ```

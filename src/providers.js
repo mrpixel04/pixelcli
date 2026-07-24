@@ -57,7 +57,7 @@ export function providerOf(modelId) {
   return 'anthropic';
 }
 
-async function* sse(res) {
+export async function* sse(res) {
   const reader = res.body.getReader();
   const decoder = new TextDecoder();
   let buf = '';
@@ -96,9 +96,10 @@ async function assertOk(res) {
 
 // Each adapter takes ({ model, apiKey, messages, signal }) and returns an async
 // iterator of plain text chunks. messages is [{ role: 'user'|'assistant', content }].
-const adapters = {
-  async *anthropic({ model, apiKey, messages, signal }) {
-    const res = await fetch('https://api.anthropic.com/v1/messages', {
+// baseUrl is injectable so the mock-server tests can point an adapter at localhost.
+export const adapters = {
+  async *anthropic({ baseUrl = 'https://api.anthropic.com', model, apiKey, messages, signal }) {
+    const res = await fetch(`${baseUrl}/v1/messages`, {
       method: 'POST',
       signal,
       headers: {
@@ -133,9 +134,15 @@ const adapters = {
     }
   },
 
-  async *google({ model, apiKey, messages, signal }) {
+  async *google({
+    baseUrl = 'https://generativelanguage.googleapis.com',
+    model,
+    apiKey,
+    messages,
+    signal,
+  }) {
     const url =
-      `https://generativelanguage.googleapis.com/v1beta/models/${model}` +
+      `${baseUrl}/v1beta/models/${model}` +
       `:streamGenerateContent?alt=sse&key=${encodeURIComponent(apiKey)}`;
     const contents = messages.map((m) => ({
       role: m.role === 'assistant' ? 'model' : 'user',

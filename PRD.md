@@ -1,4 +1,4 @@
-# polycli — PRD
+# pixelcli — PRD
 
 Status: v0.1.0 built, untagged. Written 2026-07-24.
 
@@ -95,7 +95,7 @@ dependency on the most-touched component in the app.
 
 1. **Model IDs are unverified.** They came from training data and may be stale
    or wrong. Check each provider's docs before tagging v0.1.0. A wrong ID
-   produces a 404 that reads like a bug in polycli.
+   produces a 404 that reads like a bug in pixelcli.
 2. **Windows is untested.** The keychain path falls back to a `0600` file,
    which is correct behaviour, but nobody has run it.
 3. **No scrollback.** Long sessions run off the top of the terminal. Ink
@@ -106,7 +106,7 @@ dependency on the most-touched component in the app.
 ## Roadmap
 
 **v0.2 — make long sessions usable**
-- Persist sessions to `~/.local/share/polycli/sessions/`, resume with `/resume`
+- Persist sessions to `~/.local/share/pixelcli/sessions/`, resume with `/resume`
 - Scrollback viewport
 - Read real usage numbers off the final stream frame
 - Verify model IDs, add a `--refresh-models` that hits each provider's list
@@ -114,7 +114,7 @@ dependency on the most-touched component in the app.
 
 **v0.3 — system prompts and context**
 - `/system` to set a persistent system prompt per session
-- Read `POLYCLI.md` from the working directory as ambient context, the way
+- Read `PIXELCLI.md` from the working directory as ambient context, the way
   agentic CLIs read their own files
 - Pipe stdin into a session, not just `-p`
 
