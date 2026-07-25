@@ -9,6 +9,7 @@ import StatusLine from './components/StatusLine.jsx';
 import Palette from './components/Palette.jsx';
 import AuthPanel from './components/AuthPanel.jsx';
 import Prompt from './components/Prompt.jsx';
+import Banner from './components/Banner.jsx';
 import { theme, providerColor } from './theme.js';
 import { allModels, providerOf, streamChat } from './providers.js';
 import { getKey, setKey, deleteKey, authStatus } from './auth.js';
@@ -300,6 +301,8 @@ export default function App() {
 
       {view === 'auth' ? (
         <AuthPanel rows={authRows} index={index} entering={entering} draft={keyDraft} />
+      ) : turns.length === 0 ? (
+        <Banner />
       ) : (
         <Log turns={turns} />
       )}
