@@ -44,18 +44,21 @@ models fast and keeping the conversation.
 
 ## Install
 
-Not published to npm — install straight from GitHub, and `pixelcli` is then on
-your PATH in **every folder**. It ships prebuilt, so there is no build step:
+Not published to npm — install the prebuilt tarball from a GitHub Release.
+`pixelcli` is then on your PATH in **every folder**, and there is no build step:
 
 ```sh
-npm install -g github:mrpixel04/pixelcli
+npm install -g https://github.com/mrpixel04/pixelcli/releases/download/v0.1.0/pixelcli-0.1.0.tgz
 ```
 
 Requires **Node 18+**. macOS and Linux today; Windows works apart from Keychain
 storage, which falls back to a `0600` file.
 
-Full install options (tarball, from-source) and a step-by-step walkthrough are
-in **[HOW-TO-USE.md](./HOW-TO-USE.md)**.
+> The `npm install -g github:mrpixel04/pixelcli` form is intentionally not the
+> recommended path: a git install runs a build/`prepare` step, which hardened
+> npm setups block — leaving a broken install. The release tarball is
+> self-contained and needs no scripts, so it works everywhere. Full options and
+> a step-by-step walkthrough are in **[HOW-TO-USE.md](./HOW-TO-USE.md)**.
 
 ## Quick start
 

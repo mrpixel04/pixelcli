@@ -39,11 +39,14 @@ First release: a global terminal chat client for four providers.
 
 ### Fixed
 
-- **Install no longer builds on the user's machine.** `npm install -g github:…`
-  previously ran an esbuild build during `prepare` and failed where npm's
-  lifecycle sandbox withheld the dev tooling (`ERR_MODULE_NOT_FOUND: esbuild`).
-  The bundle is now committed and self-contained (ink + react inlined, runs with
-  no `node_modules`), and `prepare` skips the build when that bundle is present.
+- **Install no longer builds on the user's machine.** Installing from git
+  (`npm install -g github:…`) ran an esbuild build via `prepare` and failed
+  wherever npm's lifecycle sandbox blocks scripts or withholds dev tooling
+  (`ERR_MODULE_NOT_FOUND: esbuild`, or a half-installed package with no `dist/`).
+  Resolved by shipping a committed, self-contained bundle (ink + react inlined,
+  runs with no `node_modules`) distributed as a **GitHub Release tarball** that
+  needs no lifecycle scripts at all. The git-install form is documented as
+  unsupported on hardened npm.
 - **Global re-install collision.** A stale `npm link` symlink caused
   `ENOTDIR … rename` on reinstall; documented the clean-up and removed the
   leftover.

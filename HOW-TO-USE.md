@@ -16,23 +16,32 @@ version: install it, add one API key, run `pixelcli`.
 
 ## 2. Install
 
-pixelcli is not on the npm registry. You install it straight from the GitHub
-repo, and after that the `pixelcli` command works in **any folder**.
+pixelcli is not on the npm registry. Install the prebuilt tarball from a GitHub
+Release — after that the `pixelcli` command works in **any folder**:
 
 ```sh
-npm install -g github:mrpixel04/pixelcli
+npm install -g https://github.com/mrpixel04/pixelcli/releases/download/v0.1.0/pixelcli-0.1.0.tgz
 ```
 
-That line clones the repo and puts `pixelcli` on your PATH. The CLI ships
-prebuilt (one self-contained file), so there is no build step and no dev tooling
-to install — it just works.
+The tarball is one self-contained file, so there is no build step and no dev
+tooling to install — it just works, even on locked-down npm setups.
 
-> Once a tagged release exists on the official remote, you can also install a
-> prebuilt tarball (no build step):
->
-> ```sh
-> npm install -g https://github.com/mrpixel04/pixelcli/releases/download/v0.1.0/pixelcli-0.1.0.tgz
-> ```
+> **Why not `npm install -g github:mrpixel04/pixelcli`?** A git install makes npm
+> run a build/`prepare` step on your machine. Security-hardened npm setups block
+> lifecycle scripts, which leaves a half-installed package (`command not found`).
+> The release tarball avoids that entirely. If you specifically want the git
+> form and your npm allows scripts, it can work — but the tarball is the
+> supported path.
+
+### Installing from a local clone (for development)
+
+```sh
+git clone https://github.com/mrpixel04/pixelcli.git
+cd pixelcli
+npm install        # dev tooling (esbuild, ink) for building/testing
+npm run build      # refresh dist/cli.js
+npm install -g .   # put pixelcli on your PATH from this clone
+```
 
 Check it worked:
 
