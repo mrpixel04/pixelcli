@@ -23,7 +23,9 @@ repo, and after that the `pixelcli` command works in **any folder**.
 npm install -g github:mrpixel04/pixelcli
 ```
 
-That line clones the repo, builds it, and puts `pixelcli` on your PATH.
+That line clones the repo and puts `pixelcli` on your PATH. The CLI ships
+prebuilt (one self-contained file), so there is no build step and no dev tooling
+to install — it just works.
 
 > Once a tagged release exists on the official remote, you can also install a
 > prebuilt tarball (no build step):

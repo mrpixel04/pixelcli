@@ -45,7 +45,7 @@ models fast and keeping the conversation.
 ## Install
 
 Not published to npm — install straight from GitHub, and `pixelcli` is then on
-your PATH in **every folder**:
+your PATH in **every folder**. It ships prebuilt, so there is no build step:
 
 ```sh
 npm install -g github:mrpixel04/pixelcli
@@ -124,9 +124,14 @@ scrollback, real usage numbers, system prompts, and (maybe) tool calling.
 
 ## Release
 
+`dist/cli.js` is a committed, self-contained bundle, so a plain
+`npm install -g github:mrpixel04/pixelcli` needs no build step. Rebuild it
+whenever source changes:
+
 ```sh
+npm run build             # refresh dist/cli.js (commit it)
 npm version patch
-npm pack                  # builds dist/, emits pixelcli-x.y.z.tgz
+npm pack                  # emits pixelcli-x.y.z.tgz
 gh release create v0.1.0 pixelcli-0.1.0.tgz
 ```
 
