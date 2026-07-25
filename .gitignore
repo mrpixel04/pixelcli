@@ -1,4 +1,7 @@
 node_modules/
-dist/
 *.tgz
 .DS_Store
+
+# dist/cli.js is committed on purpose: it is a self-contained bundle so
+# `npm install -g github:...` needs no build step or dev tooling on the user's
+# machine. Rebuild it with `npm run build` before committing a source change.
