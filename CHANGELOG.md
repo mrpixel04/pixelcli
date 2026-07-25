@@ -9,7 +9,15 @@ exactly what changed.
 
 ## [Unreleased]
 
-_Nothing yet._
+### Added
+
+- **Inline slash-command autocomplete.** Typing `/` at the chat prompt lists
+  matching commands with the top match highlighted; **Tab** completes it, and an
+  unambiguous prefix (e.g. `/co`) runs without typing the whole word.
+
+### Docs
+
+- **RELEASE-STEP.md** — a repeatable runbook for cutting every release.
 
 ## [0.1.0] — 2026-07-25
 

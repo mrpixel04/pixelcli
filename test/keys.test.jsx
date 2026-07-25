@@ -74,3 +74,28 @@ test('typing lands in the draft and Enter on a slash command routes it', async (
   assert.match(lastFrame(), /keybinds and commands|\^p commands/);
   unmount();
 });
+
+test('typing /m suggests /model and Tab completes it', async () => {
+  const { stdin, lastFrame, unmount } = render(<App />);
+  await settle();
+  await type(stdin, '/m');
+  await settle();
+  assert.match(lastFrame(), /\/model/);
+  assert.match(lastFrame(), /tab to complete/);
+
+  stdin.write('\t'); // Tab
+  await settle();
+  assert.match(lastFrame(), /\/model/); // completed into the input
+  assert.doesNotMatch(lastFrame(), /tab to complete/); // suggestions dismissed
+  unmount();
+});
+
+test('an unambiguous slash prefix runs without full typing (/co -> /cost)', async () => {
+  const { stdin, lastFrame, unmount } = render(<App />);
+  await settle();
+  await type(stdin, '/co');
+  stdin.write('\r');
+  await settle();
+  assert.match(lastFrame(), /tokens \(estimated\)/); // /cost output
+  unmount();
+});
