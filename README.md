@@ -1,7 +1,8 @@
 # pixelcli
 
-One terminal chat UI for Anthropic, DeepSeek, OpenAI and Gemini. Switch model
-mid-conversation without losing the thread.
+**One terminal chat UI for Anthropic, DeepSeek, OpenAI and Gemini.** Switch model
+mid-conversation without losing the thread — one set of keybinds, one config, one
+place your keys live.
 
 ```
  ◆ pixelcli v0.1.0                     ~/dev/myapp  ⎇ main  ● claude-sonnet-4-6
@@ -17,73 +18,67 @@ mid-conversation without losing the thread.
   CHAT   tok ⇡312 ⇣1204        ^o model · ^p commands · ^r stop · ^c quit
 ```
 
+---
+
+## Why
+
+Every provider ships its own CLI, and they disagree about everything —
+keybinds, config location, where keys are stored, how output looks. Running four
+of them means four sets of muscle memory and four places a key can leak.
+pixelcli is **one client, one config, one keychain entry per provider**.
+
+It is a chat tool, not a coding agent — no file edits, no shell execution,
+nothing agentic. That space is well covered elsewhere; this is for switching
+models fast and keeping the conversation.
+
+## Features
+
+- **Four providers, one UI** — Anthropic, DeepSeek, OpenAI, Google (Gemini).
+- **Streaming replies**, rendered as they arrive.
+- **Switch model mid-session** with `^o`; your history is preserved.
+- **Command palette** (`^p`) and **model picker** (`^o`), both filterable.
+- **Secure key storage** — env var → macOS Keychain → `0600` file, in that order.
+  Keys never touch `config.json`.
+- **One-shot mode** (`-p`) that prints to stdout and pipes.
+- **Fast** — cold start under ~300ms, no daemon.
+
 ## Install
 
-Not published to npm. Install globally straight from GitHub — after this,
-`pixelcli` is on your PATH and runs from any folder.
-
-```sh
-# from the repo (builds and links the global bin)
-git clone https://github.com/mrpixel04/pixelcli.git
-cd pixelcli
-npm install -g .
-```
-
-Or in one line from the repo, which builds on install:
+Not published to npm — install straight from GitHub, and `pixelcli` is then on
+your PATH in **every folder**:
 
 ```sh
 npm install -g github:mrpixel04/pixelcli
 ```
 
-Or from a release tarball, which ships prebuilt:
+Requires **Node 18+**. macOS and Linux today; Windows works apart from Keychain
+storage, which falls back to a `0600` file.
+
+Full install options (tarball, from-source) and a step-by-step walkthrough are
+in **[HOW-TO-USE.md](./HOW-TO-USE.md)**.
+
+## Quick start
 
 ```sh
-npm install -g https://github.com/mrpixel04/pixelcli/releases/download/v0.1.0/pixelcli-0.1.0.tgz
+pixelcli            # start a session
+/auth               # add a provider key
+/model              # pick a default model
 ```
 
-Requires Node 18 or newer. macOS and Linux today; Windows works apart from
-Keychain storage, which falls back to a `0600` file.
+Then just type and press Enter. See **[HOW-TO-USE.md](./HOW-TO-USE.md)** for
+adding keys, choosing models, and every command.
 
-## First run
+## Keys and config
 
-```sh
-pixelcli          # start a session
-/auth             # add a provider key
-/model            # pick a default model
-```
+| What            | Where                                                    |
+| --------------- | -------------------------------------------------------- |
+| API keys        | env var → macOS Keychain (`pixelcli.<provider>`) → `~/.config/pixelcli/keys.json` |
+| Config          | `~/.config/pixelcli/config.json` (safe to commit to dotfiles) |
+| Check keys      | `pixelcli --auth`                                        |
+| Config path     | `pixelcli --config`                                      |
 
-## Keys
-
-Checked in this order, first hit wins:
-
-1. Environment variable — `ANTHROPIC_API_KEY`, `DEEPSEEK_API_KEY`,
-   `OPENAI_API_KEY`, `GEMINI_API_KEY`
-2. macOS Keychain, under service `pixelcli.<provider>`
-3. `~/.config/pixelcli/keys.json`, mode `0600`
-
-Keys are never written to `config.json`. To inspect what pixelcli can see:
-
-```sh
-pixelcli --auth
-```
-
-## Commands
-
-| Command  | Does                    |
-| -------- | ----------------------- |
-| `/model` | switch model            |
-| `/auth`  | add or remove keys      |
-| `/new`   | clear the session       |
-| `/cost`  | token usage so far      |
-| `/help`  | keybinds and commands   |
-| `/quit`  | exit                    |
-
-## Keys and chords
-
-`^p` commands · `^o` model picker · `^r` stop streaming · `^c` quit
-
-`^m` is deliberately unused — terminals send it as Enter, so it can never be
-bound to anything.
+Detailed key setup per provider (and where to get each key) is in
+[HOW-TO-USE.md](./HOW-TO-USE.md#3-add-an-api-key).
 
 ## Flags
 
@@ -93,37 +88,39 @@ pixelcli --model deepseek-chat    # set the model and start
 pixelcli --models                 # list models
 pixelcli --auth                   # key status
 pixelcli --config                 # config file path
+pixelcli --version                # version
+pixelcli --help                   # usage
 ```
-
-Because `-p` writes plain text to stdout, it pipes:
-
-```sh
-git diff | pixelcli -p "write a commit message for this diff"
-```
-
-## Adding a provider
-
-1. Add an entry to `providers` in `src/providers.js` with its models and env
-   var name.
-2. If it speaks the OpenAI chat-completions shape, route it to
-   `adapters.openaiCompatible` with its base URL — that is a one-line change.
-   Otherwise write a small adapter that yields text chunks.
-3. Add a colour in `src/theme.js`.
-
-Nothing in the UI needs touching. The model picker, header chip and auth panel
-all read from that one catalog.
 
 ## Develop
 
 ```sh
+git clone https://github.com/mrpixel04/pixelcli.git
+cd pixelcli
 npm install
 npm run dev     # build and run
 npm test        # key handling + stream parsing
 ```
 
-`npm test` drives real key events through the app with `ink-testing-library`
-and runs the stream parsers against a mock SSE server that deliberately splits a
-frame across chunks.
+Architecture notes and the rules that keep the codebase honest live in
+[CLAUDE.md](./CLAUDE.md); the product rationale is in [PRD.md](./PRD.md).
+
+### Adding a provider
+
+1. Add an entry to `providers` in `src/providers.js` (models + env var name).
+2. If it speaks the OpenAI chat-completions shape, route it to
+   `adapters.openaiCompatible` with its base URL — one line. Otherwise write a
+   small adapter that yields text chunks.
+3. Add a colour in `src/theme.js`.
+
+Nothing in the UI needs touching — the model picker, header chip and auth panel
+all read from that one catalog.
+
+## Roadmap
+
+Planned work and known gaps are tracked in
+**[WAY-FORWARD-TASKS.md](./WAY-FORWARD-TASKS.md)** — session persistence,
+scrollback, real usage numbers, system prompts, and (maybe) tool calling.
 
 ## Release
 
@@ -132,3 +129,7 @@ npm version patch
 npm pack                  # builds dist/, emits pixelcli-x.y.z.tgz
 gh release create v0.1.0 pixelcli-0.1.0.tgz
 ```
+
+## License
+
+MIT.
