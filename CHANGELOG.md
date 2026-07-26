@@ -9,6 +9,22 @@ exactly what changed.
 
 ## [Unreleased]
 
+_Nothing yet._
+
+## [0.1.2] — 2026-07-26
+
+### Fixed
+
+- **Refreshed deprecated model IDs.** DeepSeek retired `deepseek-chat` /
+  `deepseek-reasoner` (its API now returns `400 Bad Request` for them); the
+  catalog now lists **`deepseek-v4-pro`** and **`deepseek-v4-flash`**. The
+  Anthropic entries were updated to current IDs (`claude-sonnet-5`,
+  `claude-opus-4-8`, `claude-haiku-4-5-20251001`) and the default model is now
+  `claude-sonnet-5`. Because the `/model` picker reads the same catalog, this
+  fixes it too.
+
+## [0.1.1] — 2026-07-25
+
 ### Added
 
 - **Inline slash-command autocomplete.** Typing `/` at the chat prompt lists
@@ -64,5 +80,7 @@ First release: a global terminal chat client for four providers.
 - Renamed the project from **polycli** to **pixelcli** throughout — command,
   config directory, Keychain service, and the `PIXELCLI_CONFIG_DIR` override.
 
-[Unreleased]: https://github.com/mrpixel04/pixelcli/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/mrpixel04/pixelcli/compare/v0.1.2...HEAD
+[0.1.2]: https://github.com/mrpixel04/pixelcli/compare/v0.1.1...v0.1.2
+[0.1.1]: https://github.com/mrpixel04/pixelcli/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/mrpixel04/pixelcli/releases/tag/v0.1.0

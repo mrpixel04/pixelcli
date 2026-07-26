@@ -5,8 +5,8 @@ export const providers = {
     keyHint: 'sk-ant-...',
     docsUrl: 'https://console.anthropic.com/settings/keys',
     models: [
-      { id: 'claude-sonnet-4-6', context: '200k' },
-      { id: 'claude-opus-4-6', context: '200k' },
+      { id: 'claude-sonnet-5', context: '200k' },
+      { id: 'claude-opus-4-8', context: '200k' },
       { id: 'claude-haiku-4-5-20251001', context: '200k' },
     ],
   },
@@ -16,8 +16,8 @@ export const providers = {
     keyHint: 'sk-...',
     docsUrl: 'https://platform.deepseek.com/api_keys',
     models: [
-      { id: 'deepseek-chat', context: '64k' },
-      { id: 'deepseek-reasoner', context: '64k' },
+      { id: 'deepseek-v4-pro', context: '128k' },
+      { id: 'deepseek-v4-flash', context: '128k' },
     ],
   },
   openai: {

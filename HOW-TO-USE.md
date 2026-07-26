@@ -20,7 +20,7 @@ pixelcli is not on the npm registry. Install the prebuilt tarball from a GitHub
 Release — after that the `pixelcli` command works in **any folder**:
 
 ```sh
-npm install -g https://github.com/mrpixel04/pixelcli/releases/download/v0.1.0/pixelcli-0.1.0.tgz
+npm install -g https://github.com/mrpixel04/pixelcli/releases/download/v0.1.2/pixelcli-0.1.2.tgz
 ```
 
 The tarball is one self-contained file, so there is no build step and no dev
@@ -46,7 +46,7 @@ npm install -g .   # put pixelcli on your PATH from this clone
 Check it worked:
 
 ```sh
-pixelcli --version      # -> pixelcli v0.1.0
+pixelcli --version      # -> pixelcli v0.1.2
 ```
 
 ---
@@ -121,7 +121,7 @@ the default for next time.
 Or set it up front from the shell:
 
 ```sh
-pixelcli --model deepseek-chat
+pixelcli --model deepseek-v4-flash
 ```
 
 ---
@@ -172,7 +172,8 @@ git diff | pixelcli -p "write a commit message for this diff"
 ## 7. Update or uninstall
 
 ```sh
-npm install -g github:mrpixel04/pixelcli   # re-run to update
+# update: install the latest release tarball again
+npm install -g https://github.com/mrpixel04/pixelcli/releases/download/v0.1.2/pixelcli-0.1.2.tgz
 npm uninstall -g pixelcli                  # remove it
 ```
 

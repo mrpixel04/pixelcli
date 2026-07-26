@@ -25,7 +25,7 @@ test('renders the header with the pixelcli brand and default model', async () =>
   const { lastFrame, unmount } = render(<App />);
   await settle();
   assert.match(lastFrame(), /pixelcli/);
-  assert.match(lastFrame(), /claude-sonnet-4-6/);
+  assert.match(lastFrame(), /claude-sonnet-5/);
   unmount();
 });
 
@@ -39,7 +39,7 @@ test('^o opens the model picker and filtering narrows the list', async () => {
 
   await type(stdin, 'opus');
   await settle();
-  assert.match(lastFrame(), /claude-opus-4-6/);
+  assert.match(lastFrame(), /claude-opus-4-8/);
   assert.doesNotMatch(lastFrame(), /gpt-4o/); // filtered out
   unmount();
 });
