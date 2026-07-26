@@ -8,7 +8,7 @@ const overrideDir = process.env.PIXELCLI_CONFIG_DIR;
 const dir = overrideDir ?? path.join(os.homedir(), '.config', 'pixelcli');
 const file = path.join(dir, 'config.json');
 
-const DEFAULTS = { model: 'claude-sonnet-4-6' };
+const DEFAULTS = { model: 'claude-sonnet-5' };
 
 export function loadConfig() {
   try {

@@ -33836,7 +33836,7 @@ var providerColor = {
 };
 
 // src/meta.js
-var VERSION = true ? "0.1.0" : "0.0.0-dev";
+var VERSION = true ? "0.1.2" : "0.0.0-dev";
 var NAME = "pixelcli";
 
 // src/components/Header.jsx
@@ -34072,8 +34072,8 @@ var providers = {
     keyHint: "sk-ant-...",
     docsUrl: "https://console.anthropic.com/settings/keys",
     models: [
-      { id: "claude-sonnet-4-6", context: "200k" },
-      { id: "claude-opus-4-6", context: "200k" },
+      { id: "claude-sonnet-5", context: "200k" },
+      { id: "claude-opus-4-8", context: "200k" },
       { id: "claude-haiku-4-5-20251001", context: "200k" }
     ]
   },
@@ -34083,8 +34083,8 @@ var providers = {
     keyHint: "sk-...",
     docsUrl: "https://platform.deepseek.com/api_keys",
     models: [
-      { id: "deepseek-chat", context: "64k" },
-      { id: "deepseek-reasoner", context: "64k" }
+      { id: "deepseek-v4-pro", context: "128k" },
+      { id: "deepseek-v4-flash", context: "128k" }
     ]
   },
   openai: {
@@ -34342,7 +34342,7 @@ import os4 from "node:os";
 var overrideDir2 = process.env.PIXELCLI_CONFIG_DIR;
 var dir2 = overrideDir2 ?? path2.join(os4.homedir(), ".config", "pixelcli");
 var file = path2.join(dir2, "config.json");
-var DEFAULTS = { model: "claude-sonnet-4-6" };
+var DEFAULTS = { model: "claude-sonnet-5" };
 function loadConfig() {
   try {
     return { ...DEFAULTS, ...JSON.parse(fs3.readFileSync(file, "utf8")) };

@@ -5,11 +5,11 @@ mid-conversation without losing the thread — one set of keybinds, one config, 
 place your keys live.
 
 ```
- ◆ pixelcli v0.1.0                     ~/dev/myapp  ⎇ main  ● claude-sonnet-4-6
+ ◆ pixelcli v0.1.2                     ~/dev/myapp  ⎇ main  ● claude-sonnet-5
 
  › explain this stack trace
 
- ● claude-sonnet-4-6
+ ● claude-sonnet-5
    The error comes from calling .map on a value that is undefined at the time…
 
  ╭──────────────────────────────────────────────────────────────────────────╮
@@ -48,7 +48,7 @@ Not published to npm — install the prebuilt tarball from a GitHub Release.
 `pixelcli` is then on your PATH in **every folder**, and there is no build step:
 
 ```sh
-npm install -g https://github.com/mrpixel04/pixelcli/releases/download/v0.1.0/pixelcli-0.1.0.tgz
+npm install -g https://github.com/mrpixel04/pixelcli/releases/download/v0.1.2/pixelcli-0.1.2.tgz
 ```
 
 Requires **Node 18+**. macOS and Linux today; Windows works apart from Keychain
@@ -87,7 +87,7 @@ Detailed key setup per provider (and where to get each key) is in
 
 ```sh
 pixelcli -p "one-shot question"   # print an answer to stdout, no TUI
-pixelcli --model deepseek-chat    # set the model and start
+pixelcli --model deepseek-v4-flash    # set the model and start
 pixelcli --models                 # list models
 pixelcli --auth                   # key status
 pixelcli --config                 # config file path
