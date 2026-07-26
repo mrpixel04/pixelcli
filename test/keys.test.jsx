@@ -99,3 +99,14 @@ test('an unambiguous slash prefix runs without full typing (/co -> /cost)', asyn
   assert.match(lastFrame(), /tokens \(estimated\)/); // /cost output
   unmount();
 });
+
+test('sidebar shows the project tree and ^b toggles it off', async () => {
+  const { stdin, lastFrame, unmount } = render(<App />);
+  await settle();
+  assert.match(lastFrame(), /project/); // sidebar header
+  assert.match(lastFrame(), /src/); // a directory from the tree
+  stdin.write('\x02'); // ^b
+  await settle();
+  assert.doesNotMatch(lastFrame(), /project/); // sidebar hidden
+  unmount();
+});

@@ -11,6 +11,15 @@ exactly what changed.
 
 _Nothing yet._
 
+## [0.2.0] — 2026-07-27
+
+### Added
+
+- **Two-column layout.** A left sidebar (~20% width) shows the working
+  directory path and a read-only file tree of the project; the chat fills the
+  rest. Toggle the sidebar with **`^b`**. The split uses responsive widths, so it
+  fills a fullscreen terminal cleanly and collapses to chat-only when hidden.
+
 ## [0.1.2] — 2026-07-26
 
 ### Fixed
@@ -80,7 +89,8 @@ First release: a global terminal chat client for four providers.
 - Renamed the project from **polycli** to **pixelcli** throughout — command,
   config directory, Keychain service, and the `PIXELCLI_CONFIG_DIR` override.
 
-[Unreleased]: https://github.com/mrpixel04/pixelcli/compare/v0.1.2...HEAD
+[Unreleased]: https://github.com/mrpixel04/pixelcli/compare/v0.2.0...HEAD
+[0.2.0]: https://github.com/mrpixel04/pixelcli/compare/v0.1.2...v0.2.0
 [0.1.2]: https://github.com/mrpixel04/pixelcli/compare/v0.1.1...v0.1.2
 [0.1.1]: https://github.com/mrpixel04/pixelcli/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/mrpixel04/pixelcli/releases/tag/v0.1.0
