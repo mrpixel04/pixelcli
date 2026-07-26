@@ -7867,9 +7867,9 @@ var require_react_reconciler_development = __commonJS({
       module.exports = function $$$reconciler($$$hostConfig) {
         var exports2 = {};
         "use strict";
-        var React19 = require_react();
+        var React20 = require_react();
         var Scheduler = require_scheduler();
-        var ReactSharedInternals = React19.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
+        var ReactSharedInternals = React20.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
         var suppressWarning = false;
         function setSuppressWarning(newSuppressWarning) {
           {
@@ -27290,7 +27290,7 @@ var require_react_jsx_runtime_development = __commonJS({
     if (process.env.NODE_ENV !== "production") {
       (function() {
         "use strict";
-        var React19 = require_react();
+        var React20 = require_react();
         var REACT_ELEMENT_TYPE = Symbol.for("react.element");
         var REACT_PORTAL_TYPE = Symbol.for("react.portal");
         var REACT_FRAGMENT_TYPE = Symbol.for("react.fragment");
@@ -27316,7 +27316,7 @@ var require_react_jsx_runtime_development = __commonJS({
           }
           return null;
         }
-        var ReactSharedInternals = React19.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
+        var ReactSharedInternals = React20.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
         function error(format) {
           {
             {
@@ -28166,11 +28166,11 @@ var require_react_jsx_runtime_development = __commonJS({
             return jsxWithValidation(type, props, key, false);
           }
         }
-        var jsx10 = jsxWithValidationDynamic;
-        var jsxs9 = jsxWithValidationStatic;
+        var jsx11 = jsxWithValidationDynamic;
+        var jsxs10 = jsxWithValidationStatic;
         exports.Fragment = REACT_FRAGMENT_TYPE;
-        exports.jsx = jsx10;
-        exports.jsxs = jsxs9;
+        exports.jsx = jsx11;
+        exports.jsxs = jsxs10;
       })();
     }
   }
@@ -28189,7 +28189,7 @@ var require_jsx_runtime = __commonJS({
 });
 
 // src/cli.jsx
-var import_react30 = __toESM(require_react(), 1);
+var import_react31 = __toESM(require_react(), 1);
 
 // node_modules/ink/build/render.js
 import { Stream } from "node:stream";
@@ -33807,7 +33807,7 @@ var import_react21 = __toESM(require_react(), 1);
 import process13 from "node:process";
 
 // src/app.jsx
-var import_react29 = __toESM(require_react(), 1);
+var import_react30 = __toESM(require_react(), 1);
 import { execFileSync as execFileSync2 } from "node:child_process";
 import os5 from "node:os";
 
@@ -34044,6 +34044,23 @@ function Banner() {
     ART.map((line, i) => /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(Text, { color: theme.logo, bold: true, children: line }, i)),
     /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(Box_default, { marginTop: 1, children: /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(Text, { color: theme.accent, children: "by MrFrankis 2026" }) }),
     /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(Text, { color: theme.faint, children: "Unit Aplikasi Sokongan" })
+  ] });
+}
+
+// src/components/SlashHints.jsx
+var import_react29 = __toESM(require_react(), 1);
+var import_jsx_runtime8 = __toESM(require_jsx_runtime(), 1);
+function SlashHints({ items }) {
+  return /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)(Box_default, { flexDirection: "column", marginX: 1, paddingX: 1, children: [
+    items.map((c, i) => /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)(Box_default, { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(Text, { color: i === 0 ? theme.accent : theme.faint, children: i === 0 ? "\u203A " : "  " }),
+      /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(Text, { color: i === 0 ? theme.accent : theme.text, bold: i === 0, children: c.label }),
+      /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)(Text, { color: theme.faint, children: [
+        "  ",
+        c.tag
+      ] })
+    ] }, c.id)),
+    /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(Text, { color: theme.faint, children: "tab to complete \xB7 \u23CE to run" })
   ] });
 }
 
@@ -34347,7 +34364,7 @@ function configPath() {
 }
 
 // src/app.jsx
-var import_jsx_runtime8 = __toESM(require_jsx_runtime(), 1);
+var import_jsx_runtime9 = __toESM(require_jsx_runtime(), 1);
 var COMMANDS = [
   { id: "model", label: "/model", tag: "switch model" },
   { id: "auth", label: "/auth", tag: "add or remove api keys" },
@@ -34376,29 +34393,29 @@ var uid = () => `t${nextId++}`;
 var estimate = (s) => Math.ceil((s || "").length / 4);
 function App2() {
   const { exit } = use_app_default();
-  const [config, setConfig] = (0, import_react29.useState)(() => loadConfig());
-  const [turns, setTurns] = (0, import_react29.useState)([]);
-  const [draft, setDraft] = (0, import_react29.useState)("");
-  const [cursor, setCursor] = (0, import_react29.useState)(0);
-  const [view, setView] = (0, import_react29.useState)("chat");
-  const [query, setQuery] = (0, import_react29.useState)("");
-  const [index, setIndex] = (0, import_react29.useState)(0);
-  const [busy, setBusy] = (0, import_react29.useState)(false);
-  const [usage, setUsage] = (0, import_react29.useState)({ sent: 0, received: 0 });
-  const [authRows, setAuthRows] = (0, import_react29.useState)(() => authStatus());
-  const [entering, setEntering] = (0, import_react29.useState)(false);
-  const [keyDraft, setKeyDraft] = (0, import_react29.useState)("");
-  const abortRef = (0, import_react29.useRef)(null);
-  const cwd2 = (0, import_react29.useMemo)(shortCwd, []);
-  const branch = (0, import_react29.useMemo)(gitBranch, []);
+  const [config, setConfig] = (0, import_react30.useState)(() => loadConfig());
+  const [turns, setTurns] = (0, import_react30.useState)([]);
+  const [draft, setDraft] = (0, import_react30.useState)("");
+  const [cursor, setCursor] = (0, import_react30.useState)(0);
+  const [view, setView] = (0, import_react30.useState)("chat");
+  const [query, setQuery] = (0, import_react30.useState)("");
+  const [index, setIndex] = (0, import_react30.useState)(0);
+  const [busy, setBusy] = (0, import_react30.useState)(false);
+  const [usage, setUsage] = (0, import_react30.useState)({ sent: 0, received: 0 });
+  const [authRows, setAuthRows] = (0, import_react30.useState)(() => authStatus());
+  const [entering, setEntering] = (0, import_react30.useState)(false);
+  const [keyDraft, setKeyDraft] = (0, import_react30.useState)("");
+  const abortRef = (0, import_react30.useRef)(null);
+  const cwd2 = (0, import_react30.useMemo)(shortCwd, []);
+  const branch = (0, import_react30.useMemo)(gitBranch, []);
   const model = config.model;
   const provider = providerOf(model);
-  const keyState = (0, import_react29.useMemo)(() => getKey(provider), [provider, authRows]);
-  const push = (0, import_react29.useCallback)((turn) => {
+  const keyState = (0, import_react30.useMemo)(() => getKey(provider), [provider, authRows]);
+  const push = (0, import_react30.useCallback)((turn) => {
     setTurns((prev) => [...prev, { id: uid(), ...turn }]);
   }, []);
-  const say = (0, import_react29.useCallback)((content, tone) => push({ role: "system", content, tone }), [push]);
-  const modelItems = (0, import_react29.useMemo)(() => {
+  const say = (0, import_react30.useCallback)((content, tone) => push({ role: "system", content, tone }), [push]);
+  const modelItems = (0, import_react30.useMemo)(() => {
     const q = query.toLowerCase();
     return allModels().filter((m) => m.id.toLowerCase().includes(q) || m.provider.includes(q)).map((m) => ({
       id: m.id,
@@ -34408,10 +34425,15 @@ function App2() {
       tag: m.id === model ? `current \xB7 ${m.context}` : m.context
     }));
   }, [query, model]);
-  const commandItems = (0, import_react29.useMemo)(() => {
+  const commandItems = (0, import_react30.useMemo)(() => {
     const q = query.toLowerCase();
     return COMMANDS.filter((c) => c.label.includes(q));
   }, [query]);
+  const slashItems = (0, import_react30.useMemo)(() => {
+    if (!draft.startsWith("/") || draft.includes(" ")) return [];
+    const q = draft.slice(1).toLowerCase();
+    return COMMANDS.filter((c) => c.id.startsWith(q));
+  }, [draft]);
   const resetPalette = () => {
     setQuery("");
     setIndex(0);
@@ -34487,8 +34509,12 @@ function App2() {
     setCursor(0);
     if (!text) return;
     if (text.startsWith("/")) {
-      const name = text.slice(1).split(" ")[0];
-      const cmd = COMMANDS.find((c) => c.id === name);
+      const name = text.slice(1).split(" ")[0].toLowerCase();
+      let cmd = COMMANDS.find((c) => c.id === name);
+      if (!cmd) {
+        const matches = COMMANDS.filter((c) => c.id.startsWith(name));
+        if (matches.length === 1) cmd = matches[0];
+      }
       if (cmd) runCommand(cmd.id);
       else say(`unknown command: ${text}`, "error");
       return;
@@ -34525,6 +34551,15 @@ function App2() {
       if (key.ctrl && input === "o") {
         resetPalette();
         setView("models");
+        return;
+      }
+      if (key.tab) {
+        const top = slashItems[0];
+        if (top) {
+          const completed = `${top.label} `;
+          setDraft(completed);
+          setCursor(completed.length);
+        }
         return;
       }
       if (key.return) return submitDraft();
@@ -34594,8 +34629,8 @@ function App2() {
       setIndex(0);
     }
   });
-  return /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)(Box_default, { flexDirection: "column", children: [
-    /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(
+  return /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)(Box_default, { flexDirection: "column", children: [
+    /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(
       Header,
       {
         cwd: cwd2,
@@ -34605,8 +34640,8 @@ function App2() {
         ready: Boolean(keyState.key)
       }
     ),
-    view === "auth" ? /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(AuthPanel, { rows: authRows, index, entering, draft: keyDraft }) : turns.length === 0 ? /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(Banner, {}) : /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(Log, { turns }),
-    view === "models" || view === "commands" ? /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(
+    view === "auth" ? /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(AuthPanel, { rows: authRows, index, entering, draft: keyDraft }) : turns.length === 0 ? /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(Banner, {}) : /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(Log, { turns }),
+    view === "models" || view === "commands" ? /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(
       Palette,
       {
         prompt: view === "models" ? "\u203A switch model" : "\u203A /",
@@ -34615,11 +34650,14 @@ function App2() {
         index,
         footer: view === "models" ? "\u2191\u2193 move \xB7 \u23CE select \xB7 esc cancel" : "\u2191\u2193 move \xB7 \u23CE run \xB7 esc cancel"
       }
-    ) : view === "chat" ? /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)(Box_default, { borderStyle: "round", borderColor: theme.line, paddingX: 1, marginX: 1, children: [
-      /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(Text, { color: providerColor[provider] ?? theme.faint, children: "\u203A " }),
-      /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(Prompt, { value: draft, cursor, placeholder: " ask anything, or / for commands" })
+    ) : view === "chat" ? /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)(Box_default, { flexDirection: "column", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)(Box_default, { borderStyle: "round", borderColor: theme.line, paddingX: 1, marginX: 1, children: [
+        /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(Text, { color: providerColor[provider] ?? theme.faint, children: "\u203A " }),
+        /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(Prompt, { value: draft, cursor, placeholder: " ask anything, or / for commands" })
+      ] }),
+      slashItems.length > 0 ? /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(SlashHints, { items: slashItems }) : null
     ] }) : null,
-    /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(
+    /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(
       StatusLine,
       {
         mode: view === "chat" ? "CHAT" : view.toUpperCase(),
@@ -34632,7 +34670,7 @@ function App2() {
 }
 
 // src/cli.jsx
-var import_jsx_runtime9 = __toESM(require_jsx_runtime(), 1);
+var import_jsx_runtime10 = __toESM(require_jsx_runtime(), 1);
 function parse(argv) {
   const opts = { prompt: null, model: null, rest: [] };
   for (let i = 0; i < argv.length; i++) {
@@ -34748,7 +34786,7 @@ async function main() {
 `);
     process13.exit(1);
   }
-  const { waitUntilExit } = render_default(/* @__PURE__ */ (0, import_jsx_runtime9.jsx)(App2, {}));
+  const { waitUntilExit } = render_default(/* @__PURE__ */ (0, import_jsx_runtime10.jsx)(App2, {}));
   await waitUntilExit();
 }
 main();

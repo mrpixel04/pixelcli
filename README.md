@@ -127,15 +127,15 @@ scrollback, real usage numbers, system prompts, and (maybe) tool calling.
 
 ## Release
 
-`dist/cli.js` is a committed, self-contained bundle, so a plain
-`npm install -g github:mrpixel04/pixelcli` needs no build step. Rebuild it
-whenever source changes:
+`dist/cli.js` is a committed, self-contained bundle, distributed as a tarball
+attached to a GitHub Release. The full step-by-step (including the GitHub UI) is
+in **[RELEASE-STEP.md](./RELEASE-STEP.md)**. In short:
 
 ```sh
-npm run build             # refresh dist/cli.js (commit it)
-npm version patch
+npm version patch         # bump + tag
+npm run build             # refresh dist/cli.js
 npm pack                  # emits pixelcli-x.y.z.tgz
-gh release create v0.1.0 pixelcli-0.1.0.tgz
+# then create a GitHub Release for the tag and attach the .tgz
 ```
 
 ## License

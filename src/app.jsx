@@ -10,6 +10,7 @@ import Palette from './components/Palette.jsx';
 import AuthPanel from './components/AuthPanel.jsx';
 import Prompt from './components/Prompt.jsx';
 import Banner from './components/Banner.jsx';
+import SlashHints from './components/SlashHints.jsx';
 import { theme, providerColor } from './theme.js';
 import { allModels, providerOf, streamChat } from './providers.js';
 import { getKey, setKey, deleteKey, authStatus } from './auth.js';
@@ -91,6 +92,14 @@ export default function App() {
     const q = query.toLowerCase();
     return COMMANDS.filter((c) => c.label.includes(q));
   }, [query]);
+
+  // Live suggestions while typing a `/command` at the chat prompt. Only while
+  // still typing the command name (no space yet).
+  const slashItems = useMemo(() => {
+    if (!draft.startsWith('/') || draft.includes(' ')) return [];
+    const q = draft.slice(1).toLowerCase();
+    return COMMANDS.filter((c) => c.id.startsWith(q));
+  }, [draft]);
 
   const resetPalette = () => {
     setQuery('');
@@ -176,8 +185,13 @@ export default function App() {
     setCursor(0);
     if (!text) return;
     if (text.startsWith('/')) {
-      const name = text.slice(1).split(' ')[0];
-      const cmd = COMMANDS.find((c) => c.id === name);
+      const name = text.slice(1).split(' ')[0].toLowerCase();
+      // exact id first, otherwise resolve an unambiguous prefix (e.g. /mo -> /model)
+      let cmd = COMMANDS.find((c) => c.id === name);
+      if (!cmd) {
+        const matches = COMMANDS.filter((c) => c.id.startsWith(name));
+        if (matches.length === 1) cmd = matches[0];
+      }
       if (cmd) runCommand(cmd.id);
       else say(`unknown command: ${text}`, 'error');
       return;
@@ -218,6 +232,16 @@ export default function App() {
       if (key.ctrl && input === 'o') {
         resetPalette();
         setView('models');
+        return;
+      }
+      if (key.tab) {
+        // autocomplete the top slash suggestion
+        const top = slashItems[0];
+        if (top) {
+          const completed = `${top.label} `;
+          setDraft(completed);
+          setCursor(completed.length);
+        }
         return;
       }
       if (key.return) return submitDraft();
@@ -318,9 +342,12 @@ export default function App() {
           }
         />
       ) : view === 'chat' ? (
-        <Box borderStyle="round" borderColor={theme.line} paddingX={1} marginX={1}>
-          <Text color={providerColor[provider] ?? theme.faint}>› </Text>
-          <Prompt value={draft} cursor={cursor} placeholder=" ask anything, or / for commands" />
+        <Box flexDirection="column">
+          <Box borderStyle="round" borderColor={theme.line} paddingX={1} marginX={1}>
+            <Text color={providerColor[provider] ?? theme.faint}>› </Text>
+            <Prompt value={draft} cursor={cursor} placeholder=" ask anything, or / for commands" />
+          </Box>
+          {slashItems.length > 0 ? <SlashHints items={slashItems} /> : null}
         </Box>
       ) : null}
 
