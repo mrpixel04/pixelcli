@@ -22746,10 +22746,10 @@ var require_react_reconciler_development = __commonJS({
         var setErrorHandler = null;
         var setSuspenseHandler = null;
         {
-          var copyWithDeleteImpl = function(obj, path4, index2) {
-            var key = path4[index2];
+          var copyWithDeleteImpl = function(obj, path6, index2) {
+            var key = path6[index2];
             var updated = isArray(obj) ? obj.slice() : assign({}, obj);
-            if (index2 + 1 === path4.length) {
+            if (index2 + 1 === path6.length) {
               if (isArray(updated)) {
                 updated.splice(key, 1);
               } else {
@@ -22757,11 +22757,11 @@ var require_react_reconciler_development = __commonJS({
               }
               return updated;
             }
-            updated[key] = copyWithDeleteImpl(obj[key], path4, index2 + 1);
+            updated[key] = copyWithDeleteImpl(obj[key], path6, index2 + 1);
             return updated;
           };
-          var copyWithDelete = function(obj, path4) {
-            return copyWithDeleteImpl(obj, path4, 0);
+          var copyWithDelete = function(obj, path6) {
+            return copyWithDeleteImpl(obj, path6, 0);
           };
           var copyWithRenameImpl = function(obj, oldPath, newPath, index2) {
             var oldKey = oldPath[index2];
@@ -22799,17 +22799,17 @@ var require_react_reconciler_development = __commonJS({
             }
             return copyWithRenameImpl(obj, oldPath, newPath, 0);
           };
-          var copyWithSetImpl = function(obj, path4, index2, value) {
-            if (index2 >= path4.length) {
+          var copyWithSetImpl = function(obj, path6, index2, value) {
+            if (index2 >= path6.length) {
               return value;
             }
-            var key = path4[index2];
+            var key = path6[index2];
             var updated = isArray(obj) ? obj.slice() : assign({}, obj);
-            updated[key] = copyWithSetImpl(obj[key], path4, index2 + 1, value);
+            updated[key] = copyWithSetImpl(obj[key], path6, index2 + 1, value);
             return updated;
           };
-          var copyWithSet = function(obj, path4, value) {
-            return copyWithSetImpl(obj, path4, 0, value);
+          var copyWithSet = function(obj, path6, value) {
+            return copyWithSetImpl(obj, path6, 0, value);
           };
           var findHook = function(fiber, id) {
             var currentHook2 = fiber.memoizedState;
@@ -22819,10 +22819,10 @@ var require_react_reconciler_development = __commonJS({
             }
             return currentHook2;
           };
-          overrideHookState = function(fiber, id, path4, value) {
+          overrideHookState = function(fiber, id, path6, value) {
             var hook = findHook(fiber, id);
             if (hook !== null) {
-              var newState = copyWithSet(hook.memoizedState, path4, value);
+              var newState = copyWithSet(hook.memoizedState, path6, value);
               hook.memoizedState = newState;
               hook.baseState = newState;
               fiber.memoizedProps = assign({}, fiber.memoizedProps);
@@ -22832,10 +22832,10 @@ var require_react_reconciler_development = __commonJS({
               }
             }
           };
-          overrideHookStateDeletePath = function(fiber, id, path4) {
+          overrideHookStateDeletePath = function(fiber, id, path6) {
             var hook = findHook(fiber, id);
             if (hook !== null) {
-              var newState = copyWithDelete(hook.memoizedState, path4);
+              var newState = copyWithDelete(hook.memoizedState, path6);
               hook.memoizedState = newState;
               hook.baseState = newState;
               fiber.memoizedProps = assign({}, fiber.memoizedProps);
@@ -22858,8 +22858,8 @@ var require_react_reconciler_development = __commonJS({
               }
             }
           };
-          overrideProps = function(fiber, path4, value) {
-            fiber.pendingProps = copyWithSet(fiber.memoizedProps, path4, value);
+          overrideProps = function(fiber, path6, value) {
+            fiber.pendingProps = copyWithSet(fiber.memoizedProps, path6, value);
             if (fiber.alternate) {
               fiber.alternate.pendingProps = fiber.pendingProps;
             }
@@ -22868,8 +22868,8 @@ var require_react_reconciler_development = __commonJS({
               scheduleUpdateOnFiber(root, fiber, SyncLane, NoTimestamp);
             }
           };
-          overridePropsDeletePath = function(fiber, path4) {
-            fiber.pendingProps = copyWithDelete(fiber.memoizedProps, path4);
+          overridePropsDeletePath = function(fiber, path6) {
+            fiber.pendingProps = copyWithDelete(fiber.memoizedProps, path6);
             if (fiber.alternate) {
               fiber.alternate.pendingProps = fiber.pendingProps;
             }
@@ -32879,8 +32879,8 @@ function Text({ color, backgroundColor, dimColor = false, bold = false, italic =
 }
 
 // node_modules/ink/build/components/ErrorOverview.js
-var cleanupPath = (path4) => {
-  return path4?.replace(`file://${cwd()}/`, "");
+var cleanupPath = (path6) => {
+  return path6?.replace(`file://${cwd()}/`, "");
 };
 var stackUtils = new import_stack_utils.default({
   cwd: cwd(),
@@ -33808,7 +33808,9 @@ import process13 from "node:process";
 
 // src/app.jsx
 var import_react31 = __toESM(require_react(), 1);
-import { execFileSync as execFileSync2 } from "node:child_process";
+import { execFileSync as execFileSync2, exec as exec2 } from "node:child_process";
+import fs5 from "node:fs";
+import path5 from "node:path";
 import os5 from "node:os";
 
 // src/components/Header.jsx
@@ -33836,7 +33838,7 @@ var providerColor = {
 };
 
 // src/meta.js
-var VERSION = true ? "0.2.0" : "0.0.0-dev";
+var VERSION = true ? "0.3.0" : "0.0.0-dev";
 var NAME = "pixelcli";
 
 // src/components/Header.jsx
@@ -33899,7 +33901,7 @@ function Log({ turns }) {
 // src/components/StatusLine.jsx
 var import_react24 = __toESM(require_react(), 1);
 var import_jsx_runtime3 = __toESM(require_jsx_runtime(), 1);
-function StatusLine({ mode, sent, received, busy }) {
+function StatusLine({ mode, sent, received, busy, contextCount = 0 }) {
   return /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)(Box_default, { justifyContent: "space-between", paddingX: 1, children: [
     /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)(Text, { children: [
       /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)(Text, { backgroundColor: theme.accent, color: "black", children: [
@@ -33913,6 +33915,7 @@ function StatusLine({ mode, sent, received, busy }) {
         " \u21E3",
         received
       ] }),
+      contextCount > 0 ? /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(Text, { color: theme.ok, children: `  ctx ${contextCount}` }) : null,
       busy ? /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(Text, { color: theme.warn, children: "  \u2026 streaming" }) : null
     ] }),
     /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(Text, { color: theme.faint, children: "^o model \xB7 ^p commands \xB7 ^r stop \xB7 ^c quit" })
@@ -34050,17 +34053,18 @@ function Banner() {
 // src/components/SlashHints.jsx
 var import_react29 = __toESM(require_react(), 1);
 var import_jsx_runtime8 = __toESM(require_jsx_runtime(), 1);
-function SlashHints({ items }) {
+function SlashHints({ items, index = 0 }) {
+  const active = Math.min(index, items.length - 1);
   return /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)(Box_default, { flexDirection: "column", marginX: 1, paddingX: 1, children: [
     items.map((c, i) => /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)(Box_default, { children: [
-      /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(Text, { color: i === 0 ? theme.accent : theme.faint, children: i === 0 ? "\u203A " : "  " }),
-      /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(Text, { color: i === 0 ? theme.accent : theme.text, bold: i === 0, children: c.label }),
+      /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(Text, { color: i === active ? theme.accent : theme.faint, children: i === active ? "\u203A " : "  " }),
+      /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(Text, { color: i === active ? theme.accent : theme.text, bold: i === active, children: c.label }),
       /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)(Text, { color: theme.faint, children: [
         "  ",
         c.tag
       ] })
     ] }, c.id)),
-    /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(Text, { color: theme.faint, children: "tab to complete \xB7 \u23CE to run" })
+    /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(Text, { color: theme.faint, children: "\u2191\u2193 move \xB7 tab complete \xB7 \u23CE select" })
   ] });
 }
 
@@ -34142,6 +34146,52 @@ function buildTree(root, { maxDepth = 2, maxEntries = 200 } = {}) {
   }
   walk(root, 0);
   return out;
+}
+
+// src/web.js
+var ENTITIES = {
+  "&nbsp;": " ",
+  "&amp;": "&",
+  "&lt;": "<",
+  "&gt;": ">",
+  "&quot;": '"',
+  "&#39;": "'",
+  "&apos;": "'"
+};
+function htmlToText(html) {
+  return (html || "").replace(/<script[\s\S]*?<\/script>/gi, " ").replace(/<style[\s\S]*?<\/style>/gi, " ").replace(/<!--[\s\S]*?-->/g, " ").replace(/<\/(p|div|li|h[1-6]|tr|br)>/gi, "\n").replace(/<[^>]+>/g, " ").replace(/&#?[a-z0-9]+;/gi, (m) => ENTITIES[m.toLowerCase()] ?? " ").replace(/[ \t]+/g, " ").replace(/\n{3,}/g, "\n\n").replace(/^\s+|\s+$/g, "");
+}
+function normalizeUrl(input) {
+  const u = (input || "").trim();
+  if (!u) return "";
+  return /^https?:\/\//i.test(u) ? u : `https://${u}`;
+}
+async function fetchPage(input, { limit = 6e3, signal } = {}) {
+  const url = normalizeUrl(input);
+  const res = await fetch(url, {
+    signal,
+    headers: { "user-agent": "pixelcli", accept: "text/html,text/plain,*/*" }
+  });
+  if (!res.ok) throw new Error(`${res.status} ${res.statusText}`);
+  const body = await res.text();
+  const type = res.headers.get("content-type") || "";
+  const text = type.includes("html") ? htmlToText(body) : body.trim();
+  return { url, text: text.slice(0, limit), truncated: text.length > limit };
+}
+
+// src/save.js
+import path2 from "node:path";
+function extractLastCode(text) {
+  if (!text) return null;
+  const blocks = [...text.matchAll(/```[^\n]*\n([\s\S]*?)```/g)];
+  if (blocks.length) return blocks[blocks.length - 1][1].replace(/\n+$/, "");
+  return text.trim() || null;
+}
+function resolveFilename(arg) {
+  const name = (arg || "").trim();
+  if (!name) return "output.html";
+  if (!path2.extname(name)) return `${name}.html`;
+  return name;
 }
 
 // src/providers.js
@@ -34325,12 +34375,12 @@ function streamChat({ provider, model, apiKey, messages, signal }) {
 // src/auth.js
 import { execFileSync } from "node:child_process";
 import fs3 from "node:fs";
-import path2 from "node:path";
+import path3 from "node:path";
 import os3 from "node:os";
 var overrideDir = process.env.PIXELCLI_CONFIG_DIR;
 var isMac = process.platform === "darwin" && !overrideDir;
-var dir = overrideDir ?? path2.join(os3.homedir(), ".config", "pixelcli");
-var fallbackFile = path2.join(dir, "keys.json");
+var dir = overrideDir ?? path3.join(os3.homedir(), ".config", "pixelcli");
+var fallbackFile = path3.join(dir, "keys.json");
 var service = (provider) => `pixelcli.${provider}`;
 function ensureDir() {
   fs3.mkdirSync(dir, { recursive: true, mode: 448 });
@@ -34417,11 +34467,11 @@ function authStatus() {
 
 // src/config.js
 import fs4 from "node:fs";
-import path3 from "node:path";
+import path4 from "node:path";
 import os4 from "node:os";
 var overrideDir2 = process.env.PIXELCLI_CONFIG_DIR;
-var dir2 = overrideDir2 ?? path3.join(os4.homedir(), ".config", "pixelcli");
-var file = path3.join(dir2, "config.json");
+var dir2 = overrideDir2 ?? path4.join(os4.homedir(), ".config", "pixelcli");
+var file = path4.join(dir2, "config.json");
 var DEFAULTS = { model: "claude-sonnet-5" };
 function loadConfig() {
   try {
@@ -34449,6 +34499,8 @@ var COMMANDS = [
   { id: "model", label: "/model", tag: "switch model" },
   { id: "auth", label: "/auth", tag: "add or remove api keys" },
   { id: "new", label: "/new", tag: "clear this session" },
+  { id: "save", label: "/save", tag: "save last reply to a file (default .html)" },
+  { id: "fetch", label: "/fetch", tag: "read a web page into context" },
   { id: "cost", label: "/cost", tag: "token usage so far" },
   { id: "help", label: "/help", tag: "keybinds and commands" },
   { id: "quit", label: "/quit", tag: "exit pixelcli" }
@@ -34486,6 +34538,8 @@ function App2() {
   const [entering, setEntering] = (0, import_react31.useState)(false);
   const [keyDraft, setKeyDraft] = (0, import_react31.useState)("");
   const [showSidebar, setShowSidebar] = (0, import_react31.useState)(true);
+  const [slashIndex, setSlashIndex] = (0, import_react31.useState)(0);
+  const [context, setContext] = (0, import_react31.useState)([]);
   const abortRef = (0, import_react31.useRef)(null);
   const cwd2 = (0, import_react31.useMemo)(shortCwd, []);
   const branch = (0, import_react31.useMemo)(gitBranch, []);
@@ -34526,10 +34580,12 @@ function App2() {
       say(`no api key for ${provider}. run /auth to add one.`, "error");
       return;
     }
+    const ctxBlock = context.length ? "Reference material you may use to answer (fetched web pages):\n\n" + context.map((c) => `--- ${c.url} ---
+${c.text}`).join("\n\n") + "\n\n---\n\n" : "";
     const history = [
-      ...turns.filter((t) => t.role === "user" || t.role === "assistant"),
-      { role: "user", content: text }
-    ].map((t) => ({ role: t.role, content: t.content }));
+      ...turns.filter((t) => t.role === "user" || t.role === "assistant").map((t) => ({ role: t.role, content: t.content })),
+      { role: "user", content: ctxBlock + text }
+    ];
     const replyId = uid();
     setTurns((prev) => [
       ...prev,
@@ -34560,7 +34616,58 @@ function App2() {
       abortRef.current = null;
     }
   }
-  function runCommand(id) {
+  function lastAssistant() {
+    for (let i = turns.length - 1; i >= 0; i--) {
+      if (turns[i].role === "assistant" && turns[i].content) return turns[i].content;
+    }
+    return null;
+  }
+  function doSave(arg) {
+    const body = extractLastCode(lastAssistant());
+    if (!body) {
+      say("nothing to save yet \u2014 ask me for something first.", "error");
+      return;
+    }
+    const name = resolveFilename(arg);
+    const target = path5.resolve(process.cwd(), name);
+    const existed = fs5.existsSync(target);
+    try {
+      fs5.writeFileSync(target, body, "utf8");
+      say(`${existed ? "overwrote" : "saved"} ${name} (${body.length} chars) \u2192 ${target}`);
+    } catch (err) {
+      say(`could not save ${name}: ${err.message}`, "error");
+    }
+  }
+  async function doFetch(arg) {
+    const url = (arg || "").trim();
+    if (!url) {
+      say("usage: /fetch <url>", "error");
+      return;
+    }
+    say(`fetching ${url} \u2026`);
+    try {
+      const page = await fetchPage(url, { limit: 6e3, signal: AbortSignal.timeout(2e4) });
+      setContext((c) => [...c.filter((x) => x.url !== page.url), { url: page.url, text: page.text }]);
+      say(
+        `fetched ${page.url} (${page.text.length} chars${page.truncated ? ", truncated" : ""}) \u2014 added to context. ask me about it.`
+      );
+    } catch (err) {
+      say(`fetch failed: ${err.message}`, "error");
+    }
+  }
+  function runBash(cmd) {
+    say(`$ ${cmd}`);
+    exec2(
+      cmd,
+      { cwd: process.cwd(), timeout: 3e4, maxBuffer: 1024 * 1024 },
+      (err, stdout, stderr) => {
+        const out = `${stdout || ""}${stderr || ""}`.trim();
+        if (out) say(out.slice(0, 4e3), err ? "error" : void 0);
+        else say(`(no output \xB7 exit ${err?.code ?? 0})`, err ? "error" : void 0);
+      }
+    );
+  }
+  function runCommand(id, arg) {
     resetPalette();
     if (id === "model") {
       setView("models");
@@ -34575,11 +34682,16 @@ function App2() {
     if (id === "new") {
       setTurns([]);
       setUsage({ sent: 0, received: 0 });
+      setContext([]);
+    } else if (id === "save") {
+      doSave(arg);
+    } else if (id === "fetch") {
+      doFetch(arg);
     } else if (id === "cost") {
       say(`this session: \u21E1${usage.sent} \u21E3${usage.received} tokens (estimated)`);
     } else if (id === "help") {
       say(
-        "commands  " + COMMANDS.map((c) => c.label).join("  ") + "\nkeys      ^p commands \xB7 ^o model \xB7 ^b sidebar \xB7 ^r stop \xB7 ^c quit"
+        "commands  " + COMMANDS.map((c) => c.label).join("  ") + "\nkeys      ^p commands \xB7 ^o model \xB7 ^b sidebar \xB7 ^r stop \xB7 ^c quit\nshell     start a line with ! to run a bash command"
       );
     } else if (id === "quit") {
       exit();
@@ -34590,14 +34702,21 @@ function App2() {
     setDraft("");
     setCursor(0);
     if (!text) return;
+    if (text.startsWith("!")) {
+      const cmd = text.slice(1).trim();
+      if (cmd) runBash(cmd);
+      return;
+    }
     if (text.startsWith("/")) {
-      const name = text.slice(1).split(" ")[0].toLowerCase();
+      const parts = text.slice(1).split(" ");
+      const name = parts[0].toLowerCase();
+      const arg = parts.slice(1).join(" ");
       let cmd = COMMANDS.find((c) => c.id === name);
       if (!cmd) {
         const matches = COMMANDS.filter((c) => c.id.startsWith(name));
         if (matches.length === 1) cmd = matches[0];
       }
-      if (cmd) runCommand(cmd.id);
+      if (cmd) runCommand(cmd.id, arg);
       else say(`unknown command: ${text}`, "error");
       return;
     }
@@ -34639,17 +34758,37 @@ function App2() {
         setView("models");
         return;
       }
+      const hasSlash = slashItems.length > 0;
+      const slashPick = slashItems[Math.min(slashIndex, slashItems.length - 1)];
+      if (hasSlash && key.upArrow) {
+        setSlashIndex((i) => Math.max(0, i - 1));
+        return;
+      }
+      if (hasSlash && key.downArrow) {
+        setSlashIndex((i) => Math.min(slashItems.length - 1, i + 1));
+        return;
+      }
       if (key.tab) {
-        const top = slashItems[0];
-        if (top) {
-          const completed = `${top.label} `;
+        if (slashPick) {
+          const completed = `${slashPick.label} `;
           setDraft(completed);
           setCursor(completed.length);
+          setSlashIndex(0);
         }
         return;
       }
-      if (key.return) return submitDraft();
+      if (key.return) {
+        if (hasSlash && slashPick) {
+          setDraft("");
+          setCursor(0);
+          setSlashIndex(0);
+          runCommand(slashPick.id);
+          return;
+        }
+        return submitDraft();
+      }
       editLine(input, key, draft, cursor, setDraft, setCursor);
+      setSlashIndex(0);
       return;
     }
     if (view === "auth") {
@@ -34747,11 +34886,11 @@ function App2() {
               {
                 value: draft,
                 cursor,
-                placeholder: " ask anything, or / for commands"
+                placeholder: " ask anything \xB7 / commands \xB7 ! shell"
               }
             )
           ] }),
-          slashItems.length > 0 ? /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(SlashHints, { items: slashItems }) : null
+          slashItems.length > 0 ? /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(SlashHints, { items: slashItems, index: slashIndex }) : null
         ] }) : null
       ] })
     ] }),
@@ -34761,7 +34900,8 @@ function App2() {
         mode: view === "chat" ? "CHAT" : view.toUpperCase(),
         sent: usage.sent,
         received: usage.received,
-        busy
+        busy,
+        contextCount: context.length
       }
     )
   ] });

@@ -11,6 +11,21 @@ exactly what changed.
 
 _Nothing yet._
 
+## [0.3.0] — 2026-07-27
+
+### Added
+
+- **`/save [name]`** — write the last reply's code block (or its text) to a file.
+  Defaults to **`.html`**; name your own to pick the extension (`/save app.js`).
+- **`/fetch <url>`** — read a single web page into the conversation as reference
+  context (crawl one URL, no search API, no key). A **`ctx N`** indicator in the
+  status line shows how many pages are loaded; `/new` clears them.
+- **`!<command>`** — run a shell command you type and see its output inline
+  (a terminal passthrough; runs in the working directory).
+- **Navigable inline `/` menu** — the suggestion list under the prompt now moves
+  with **↑/↓**, **Tab** completes the highlighted command, and **Enter** selects
+  it.
+
 ## [0.2.0] — 2026-07-27
 
 ### Added
@@ -89,7 +104,8 @@ First release: a global terminal chat client for four providers.
 - Renamed the project from **polycli** to **pixelcli** throughout — command,
   config directory, Keychain service, and the `PIXELCLI_CONFIG_DIR` override.
 
-[Unreleased]: https://github.com/mrpixel04/pixelcli/compare/v0.2.0...HEAD
+[Unreleased]: https://github.com/mrpixel04/pixelcli/compare/v0.3.0...HEAD
+[0.3.0]: https://github.com/mrpixel04/pixelcli/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/mrpixel04/pixelcli/compare/v0.1.2...v0.2.0
 [0.1.2]: https://github.com/mrpixel04/pixelcli/compare/v0.1.1...v0.1.2
 [0.1.1]: https://github.com/mrpixel04/pixelcli/compare/v0.1.0...v0.1.1

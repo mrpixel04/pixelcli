@@ -2,7 +2,7 @@ import React from 'react';
 import { Box, Text } from 'ink';
 import { theme } from '../theme.js';
 
-export default function StatusLine({ mode, sent, received, busy }) {
+export default function StatusLine({ mode, sent, received, busy, contextCount = 0 }) {
   return (
     <Box justifyContent="space-between" paddingX={1}>
       <Text>
@@ -17,6 +17,7 @@ export default function StatusLine({ mode, sent, received, busy }) {
           {' ⇣'}
           {received}
         </Text>
+        {contextCount > 0 ? <Text color={theme.ok}>{`  ctx ${contextCount}`}</Text> : null}
         {busy ? <Text color={theme.warn}>{'  … streaming'}</Text> : null}
       </Text>
       <Text color={theme.faint}>^o model · ^p commands · ^r stop · ^c quit</Text>
