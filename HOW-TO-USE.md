@@ -20,7 +20,7 @@ pixelcli is not on the npm registry. Install the prebuilt tarball from a GitHub
 Release — after that the `pixelcli` command works in **any folder**:
 
 ```sh
-npm install -g https://github.com/mrpixel04/pixelcli/releases/download/v0.3.0/pixelcli-0.3.0.tgz
+npm install -g https://github.com/mrpixel04/pixelcli/releases/download/v0.4.0/pixelcli-0.4.0.tgz
 ```
 
 The tarball is one self-contained file, so there is no build step and no dev
@@ -46,7 +46,7 @@ npm install -g .   # put pixelcli on your PATH from this clone
 Check it worked:
 
 ```sh
-pixelcli --version      # -> pixelcli v0.3.0
+pixelcli --version      # -> pixelcli v0.4.0
 ```
 
 ---
@@ -148,6 +148,7 @@ arrives. Switch models mid-conversation with `^o` — your history is kept.
 | `/model`       | switch model                                      |
 | `/auth`        | add or remove keys                                |
 | `/save [name]` | save the last reply to a file (default `.html`)   |
+| `/build`       | toggle auto-writing code into project files       |
 | `/fetch <url>` | read a web page into context                      |
 | `/new`         | clear the session (and any fetched context)       |
 | `/cost`        | token usage so far                                |
@@ -174,6 +175,21 @@ Type `/` and use **↑/↓** to move, **Tab** to complete, **Enter** to select.
 directory. `/fetch` pulls one URL's text in as reference — no search key needed.
 A leading `!` runs the rest of the line as a shell command and shows its output.
 
+### Build mode — let it create the files for you
+
+Turn on **`/build`** (a `● build` badge appears). Now when you ask for code,
+the model splits it into proper files for your project's stack (Laravel/PHP,
+plain HTML, etc.) and pixelcli **creates them automatically** — you watch them
+appear in the sidebar tree in real time. Long code is collapsed in the chat to a
+one-line summary, since it now lives in the files. `/build` again to turn it off;
+the setting is remembered.
+
+```text
+> /build                    # ● build on
+> build me a small php contact form with its own css
+  build: wrote contact.php, styles.css     ← files created + shown in the tree
+```
+
 ---
 
 ## 6. One-shot mode (no UI)
@@ -196,7 +212,7 @@ git diff | pixelcli -p "write a commit message for this diff"
 
 ```sh
 # update: install the latest release tarball again
-npm install -g https://github.com/mrpixel04/pixelcli/releases/download/v0.3.0/pixelcli-0.3.0.tgz
+npm install -g https://github.com/mrpixel04/pixelcli/releases/download/v0.4.0/pixelcli-0.4.0.tgz
 npm uninstall -g pixelcli                  # remove it
 ```
 

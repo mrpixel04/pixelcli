@@ -11,6 +11,25 @@ exactly what changed.
 
 _Nothing yet._
 
+## [0.4.0] — 2026-07-27
+
+### Added
+
+- **Build mode (`/build`).** When on, the model is asked to split code into
+  filename-labelled blocks matching your project's stack (Laravel/PHP/plain
+  HTML/etc.), and pixelcli **auto-creates those files** in your working
+  directory — refusing any path that escapes it. A **`● build`** badge shows in
+  the status line, and the setting persists across sessions.
+
+### Changed
+
+- **Live file tree.** The sidebar now refreshes on its own (a ~1.5s poll, plus
+  immediately after `/save`, a `!` command, or a build-mode write), so newly
+  created files appear without quitting and restarting.
+- **Collapsed code in chat.** Long code blocks in a reply are shown as a
+  one-line summary (`▸ lang · N lines`) instead of flooding the log. The code is
+  still written to a file (build mode) or available via `/save`.
+
 ## [0.3.0] — 2026-07-27
 
 ### Added
@@ -104,7 +123,8 @@ First release: a global terminal chat client for four providers.
 - Renamed the project from **polycli** to **pixelcli** throughout — command,
   config directory, Keychain service, and the `PIXELCLI_CONFIG_DIR` override.
 
-[Unreleased]: https://github.com/mrpixel04/pixelcli/compare/v0.3.0...HEAD
+[Unreleased]: https://github.com/mrpixel04/pixelcli/compare/v0.4.0...HEAD
+[0.4.0]: https://github.com/mrpixel04/pixelcli/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/mrpixel04/pixelcli/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/mrpixel04/pixelcli/compare/v0.1.2...v0.2.0
 [0.1.2]: https://github.com/mrpixel04/pixelcli/compare/v0.1.1...v0.1.2

@@ -1384,7 +1384,7 @@ var require_react_development = __commonJS({
           var dispatcher = resolveDispatcher();
           return dispatcher.useRef(initialValue);
         }
-        function useEffect3(create2, deps) {
+        function useEffect4(create2, deps) {
           var dispatcher = resolveDispatcher();
           return dispatcher.useEffect(create2, deps);
         }
@@ -2167,7 +2167,7 @@ var require_react_development = __commonJS({
         exports.useContext = useContext7;
         exports.useDebugValue = useDebugValue;
         exports.useDeferredValue = useDeferredValue;
-        exports.useEffect = useEffect3;
+        exports.useEffect = useEffect4;
         exports.useId = useId;
         exports.useImperativeHandle = useImperativeHandle;
         exports.useInsertionEffect = useInsertionEffect;
@@ -22746,10 +22746,10 @@ var require_react_reconciler_development = __commonJS({
         var setErrorHandler = null;
         var setSuspenseHandler = null;
         {
-          var copyWithDeleteImpl = function(obj, path6, index2) {
-            var key = path6[index2];
+          var copyWithDeleteImpl = function(obj, path7, index2) {
+            var key = path7[index2];
             var updated = isArray(obj) ? obj.slice() : assign({}, obj);
-            if (index2 + 1 === path6.length) {
+            if (index2 + 1 === path7.length) {
               if (isArray(updated)) {
                 updated.splice(key, 1);
               } else {
@@ -22757,11 +22757,11 @@ var require_react_reconciler_development = __commonJS({
               }
               return updated;
             }
-            updated[key] = copyWithDeleteImpl(obj[key], path6, index2 + 1);
+            updated[key] = copyWithDeleteImpl(obj[key], path7, index2 + 1);
             return updated;
           };
-          var copyWithDelete = function(obj, path6) {
-            return copyWithDeleteImpl(obj, path6, 0);
+          var copyWithDelete = function(obj, path7) {
+            return copyWithDeleteImpl(obj, path7, 0);
           };
           var copyWithRenameImpl = function(obj, oldPath, newPath, index2) {
             var oldKey = oldPath[index2];
@@ -22799,17 +22799,17 @@ var require_react_reconciler_development = __commonJS({
             }
             return copyWithRenameImpl(obj, oldPath, newPath, 0);
           };
-          var copyWithSetImpl = function(obj, path6, index2, value) {
-            if (index2 >= path6.length) {
+          var copyWithSetImpl = function(obj, path7, index2, value) {
+            if (index2 >= path7.length) {
               return value;
             }
-            var key = path6[index2];
+            var key = path7[index2];
             var updated = isArray(obj) ? obj.slice() : assign({}, obj);
-            updated[key] = copyWithSetImpl(obj[key], path6, index2 + 1, value);
+            updated[key] = copyWithSetImpl(obj[key], path7, index2 + 1, value);
             return updated;
           };
-          var copyWithSet = function(obj, path6, value) {
-            return copyWithSetImpl(obj, path6, 0, value);
+          var copyWithSet = function(obj, path7, value) {
+            return copyWithSetImpl(obj, path7, 0, value);
           };
           var findHook = function(fiber, id) {
             var currentHook2 = fiber.memoizedState;
@@ -22819,10 +22819,10 @@ var require_react_reconciler_development = __commonJS({
             }
             return currentHook2;
           };
-          overrideHookState = function(fiber, id, path6, value) {
+          overrideHookState = function(fiber, id, path7, value) {
             var hook = findHook(fiber, id);
             if (hook !== null) {
-              var newState = copyWithSet(hook.memoizedState, path6, value);
+              var newState = copyWithSet(hook.memoizedState, path7, value);
               hook.memoizedState = newState;
               hook.baseState = newState;
               fiber.memoizedProps = assign({}, fiber.memoizedProps);
@@ -22832,10 +22832,10 @@ var require_react_reconciler_development = __commonJS({
               }
             }
           };
-          overrideHookStateDeletePath = function(fiber, id, path6) {
+          overrideHookStateDeletePath = function(fiber, id, path7) {
             var hook = findHook(fiber, id);
             if (hook !== null) {
-              var newState = copyWithDelete(hook.memoizedState, path6);
+              var newState = copyWithDelete(hook.memoizedState, path7);
               hook.memoizedState = newState;
               hook.baseState = newState;
               fiber.memoizedProps = assign({}, fiber.memoizedProps);
@@ -22858,8 +22858,8 @@ var require_react_reconciler_development = __commonJS({
               }
             }
           };
-          overrideProps = function(fiber, path6, value) {
-            fiber.pendingProps = copyWithSet(fiber.memoizedProps, path6, value);
+          overrideProps = function(fiber, path7, value) {
+            fiber.pendingProps = copyWithSet(fiber.memoizedProps, path7, value);
             if (fiber.alternate) {
               fiber.alternate.pendingProps = fiber.pendingProps;
             }
@@ -22868,8 +22868,8 @@ var require_react_reconciler_development = __commonJS({
               scheduleUpdateOnFiber(root, fiber, SyncLane, NoTimestamp);
             }
           };
-          overridePropsDeletePath = function(fiber, path6) {
-            fiber.pendingProps = copyWithDelete(fiber.memoizedProps, path6);
+          overridePropsDeletePath = function(fiber, path7) {
+            fiber.pendingProps = copyWithDelete(fiber.memoizedProps, path7);
             if (fiber.alternate) {
               fiber.alternate.pendingProps = fiber.pendingProps;
             }
@@ -32879,8 +32879,8 @@ function Text({ color, backgroundColor, dimColor = false, bold = false, italic =
 }
 
 // node_modules/ink/build/components/ErrorOverview.js
-var cleanupPath = (path6) => {
-  return path6?.replace(`file://${cwd()}/`, "");
+var cleanupPath = (path7) => {
+  return path7?.replace(`file://${cwd()}/`, "");
 };
 var stackUtils = new import_stack_utils.default({
   cwd: cwd(),
@@ -33810,7 +33810,7 @@ import process13 from "node:process";
 var import_react31 = __toESM(require_react(), 1);
 import { execFileSync as execFileSync2, exec as exec2 } from "node:child_process";
 import fs5 from "node:fs";
-import path5 from "node:path";
+import path6 from "node:path";
 import os5 from "node:os";
 
 // src/components/Header.jsx
@@ -33838,7 +33838,7 @@ var providerColor = {
 };
 
 // src/meta.js
-var VERSION = true ? "0.3.0" : "0.0.0-dev";
+var VERSION = true ? "0.4.0" : "0.0.0-dev";
 var NAME = "pixelcli";
 
 // src/components/Header.jsx
@@ -33873,6 +33873,22 @@ function Header({ cwd: cwd2, branch, model, provider, ready }) {
 
 // src/components/Log.jsx
 var import_react23 = __toESM(require_react(), 1);
+
+// src/display.js
+function collapseCode(content) {
+  if (!content) return content;
+  let s = content.replace(/```([^\n]*)\n([\s\S]*?)```/g, (_m, info, code) => {
+    const lines = code.replace(/\n+$/, "").split("\n").length;
+    return `  \u25B8 ${info.trim() || "code"} \xB7 ${lines} lines`;
+  });
+  s = s.replace(/```([^\n]*)\n([\s\S]*)$/, (_m, info, code) => {
+    const lines = code.split("\n").length;
+    return `  \u25B8 ${info.trim() || "code"} \xB7 writing\u2026 (${lines} lines)`;
+  });
+  return s;
+}
+
+// src/components/Log.jsx
 var import_jsx_runtime2 = __toESM(require_jsx_runtime(), 1);
 function Turn({ turn }) {
   if (turn.role === "user") {
@@ -33888,7 +33904,7 @@ function Turn({ turn }) {
         /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(Text, { color: accent, children: "\u25CF " }),
         /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(Text, { color: theme.faint, children: turn.model })
       ] }),
-      turn.content ? /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(Text, { children: turn.content }) : /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(Text, { color: theme.faint, children: "\u2026" })
+      turn.content ? /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(Text, { children: collapseCode(turn.content) }) : /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(Text, { color: theme.faint, children: "\u2026" })
     ] });
   }
   const color = turn.tone === "error" ? theme.error : theme.system;
@@ -33901,7 +33917,7 @@ function Log({ turns }) {
 // src/components/StatusLine.jsx
 var import_react24 = __toESM(require_react(), 1);
 var import_jsx_runtime3 = __toESM(require_jsx_runtime(), 1);
-function StatusLine({ mode, sent, received, busy, contextCount = 0 }) {
+function StatusLine({ mode, sent, received, busy, contextCount = 0, build = false }) {
   return /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)(Box_default, { justifyContent: "space-between", paddingX: 1, children: [
     /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)(Text, { children: [
       /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)(Text, { backgroundColor: theme.accent, color: "black", children: [
@@ -33916,6 +33932,7 @@ function StatusLine({ mode, sent, received, busy, contextCount = 0 }) {
         received
       ] }),
       contextCount > 0 ? /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(Text, { color: theme.ok, children: `  ctx ${contextCount}` }) : null,
+      build ? /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(Text, { color: theme.logo, children: "  \u25CF build" }) : null,
       busy ? /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(Text, { color: theme.warn, children: "  \u2026 streaming" }) : null
     ] }),
     /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(Text, { color: theme.faint, children: "^o model \xB7 ^p commands \xB7 ^r stop \xB7 ^c quit" })
@@ -34194,6 +34211,35 @@ function resolveFilename(arg) {
   return name;
 }
 
+// src/build.js
+import path3 from "node:path";
+function filenameFromInfo(info) {
+  const tokens = (info || "").split(/[\s=]+/).filter(Boolean);
+  for (const t of tokens) {
+    const cleaned = t.replace(/^["'`]|["'`]$/g, "");
+    if (/^[\w.@/-]+\.[a-z0-9]+$/i.test(cleaned)) return cleaned;
+  }
+  return null;
+}
+function parseFiles(text) {
+  const out = [];
+  if (!text) return out;
+  const re = /```([^\n]*)\n([\s\S]*?)```/g;
+  let m;
+  while (m = re.exec(text)) {
+    const name = filenameFromInfo(m[1]);
+    if (!name) continue;
+    out.push({ name, code: m[2].replace(/\n+$/, "") });
+  }
+  return out;
+}
+function safeResolve(root, name) {
+  const target = path3.resolve(root, name);
+  const rel = path3.relative(root, target);
+  if (rel.startsWith("..") || path3.isAbsolute(rel)) return null;
+  return target;
+}
+
 // src/providers.js
 var providers = {
   anthropic: {
@@ -34375,12 +34421,12 @@ function streamChat({ provider, model, apiKey, messages, signal }) {
 // src/auth.js
 import { execFileSync } from "node:child_process";
 import fs3 from "node:fs";
-import path3 from "node:path";
+import path4 from "node:path";
 import os3 from "node:os";
 var overrideDir = process.env.PIXELCLI_CONFIG_DIR;
 var isMac = process.platform === "darwin" && !overrideDir;
-var dir = overrideDir ?? path3.join(os3.homedir(), ".config", "pixelcli");
-var fallbackFile = path3.join(dir, "keys.json");
+var dir = overrideDir ?? path4.join(os3.homedir(), ".config", "pixelcli");
+var fallbackFile = path4.join(dir, "keys.json");
 var service = (provider) => `pixelcli.${provider}`;
 function ensureDir() {
   fs3.mkdirSync(dir, { recursive: true, mode: 448 });
@@ -34467,11 +34513,11 @@ function authStatus() {
 
 // src/config.js
 import fs4 from "node:fs";
-import path4 from "node:path";
+import path5 from "node:path";
 import os4 from "node:os";
 var overrideDir2 = process.env.PIXELCLI_CONFIG_DIR;
-var dir2 = overrideDir2 ?? path4.join(os4.homedir(), ".config", "pixelcli");
-var file = path4.join(dir2, "config.json");
+var dir2 = overrideDir2 ?? path5.join(os4.homedir(), ".config", "pixelcli");
+var file = path5.join(dir2, "config.json");
 var DEFAULTS = { model: "claude-sonnet-5" };
 function loadConfig() {
   try {
@@ -34500,6 +34546,7 @@ var COMMANDS = [
   { id: "auth", label: "/auth", tag: "add or remove api keys" },
   { id: "new", label: "/new", tag: "clear this session" },
   { id: "save", label: "/save", tag: "save last reply to a file (default .html)" },
+  { id: "build", label: "/build", tag: "toggle auto-writing code into project files" },
   { id: "fetch", label: "/fetch", tag: "read a web page into context" },
   { id: "cost", label: "/cost", tag: "token usage so far" },
   { id: "help", label: "/help", tag: "keybinds and commands" },
@@ -34540,10 +34587,25 @@ function App2() {
   const [showSidebar, setShowSidebar] = (0, import_react31.useState)(true);
   const [slashIndex, setSlashIndex] = (0, import_react31.useState)(0);
   const [context, setContext] = (0, import_react31.useState)([]);
+  const [tree, setTree] = (0, import_react31.useState)(() => buildTree(process.cwd()));
+  const [buildMode, setBuildMode] = (0, import_react31.useState)(() => Boolean(loadConfig().buildMode));
   const abortRef = (0, import_react31.useRef)(null);
+  const treeSig = (0, import_react31.useRef)("");
+  const refreshTree = (0, import_react31.useCallback)(() => {
+    const next = buildTree(process.cwd());
+    const sig = next.map((n) => `${n.depth}${n.isDir ? "d" : "f"}${n.name}`).join("|");
+    if (sig !== treeSig.current) {
+      treeSig.current = sig;
+      setTree(next);
+    }
+  }, []);
+  (0, import_react31.useEffect)(() => {
+    refreshTree();
+    const id = setInterval(refreshTree, 1500);
+    return () => clearInterval(id);
+  }, [refreshTree]);
   const cwd2 = (0, import_react31.useMemo)(shortCwd, []);
   const branch = (0, import_react31.useMemo)(gitBranch, []);
-  const tree = (0, import_react31.useMemo)(() => buildTree(process.cwd()), []);
   const model = config.model;
   const provider = providerOf(model);
   const keyState = (0, import_react31.useMemo)(() => getKey(provider), [provider, authRows]);
@@ -34582,9 +34644,12 @@ function App2() {
     }
     const ctxBlock = context.length ? "Reference material you may use to answer (fetched web pages):\n\n" + context.map((c) => `--- ${c.url} ---
 ${c.text}`).join("\n\n") + "\n\n---\n\n" : "";
+    const projectFiles = tree.filter((n) => !n.isDir).slice(0, 40).map((n) => n.name);
+    const buildInstr = buildMode ? "Build mode is on. When you write code, split it into appropriate separate files (HTML, CSS, JS, controllers, config, etc.) matching this project's stack and conventions. Begin every code block fence with the target filename, for example:\n```css styles.css\n...\n```\n" + (projectFiles.length ? `Existing project files: ${projectFiles.join(", ")}.
+` : "") + "Keep explanation brief.\n\n" : "";
     const history = [
       ...turns.filter((t) => t.role === "user" || t.role === "assistant").map((t) => ({ role: t.role, content: t.content })),
-      { role: "user", content: ctxBlock + text }
+      { role: "user", content: buildInstr + ctxBlock + text }
     ];
     const replyId = uid();
     setTurns((prev) => [
@@ -34596,6 +34661,7 @@ ${c.text}`).join("\n\n") + "\n\n---\n\n" : "";
     setBusy(true);
     const controller = new AbortController();
     abortRef.current = controller;
+    let full = "";
     try {
       for await (const chunk of streamChat({
         provider,
@@ -34604,10 +34670,18 @@ ${c.text}`).join("\n\n") + "\n\n---\n\n" : "";
         messages: history,
         signal: controller.signal
       })) {
+        full += chunk;
         setTurns(
           (prev) => prev.map((t) => t.id === replyId ? { ...t, content: t.content + chunk } : t)
         );
         setUsage((u) => ({ ...u, received: u.received + estimate(chunk) }));
+      }
+      if (buildMode && full.trim()) {
+        const created = writeProjectFiles(full);
+        if (created.length) {
+          refreshTree();
+          say(`build: wrote ${created.join(", ")}`);
+        }
       }
     } catch (err) {
       if (err.name !== "AbortError") say(`${provider}: ${err.message}`, "error");
@@ -34615,6 +34689,20 @@ ${c.text}`).join("\n\n") + "\n\n---\n\n" : "";
       setBusy(false);
       abortRef.current = null;
     }
+  }
+  function writeProjectFiles(text) {
+    const written = [];
+    for (const f of parseFiles(text)) {
+      const target = safeResolve(process.cwd(), f.name);
+      if (!target) continue;
+      try {
+        fs5.mkdirSync(path6.dirname(target), { recursive: true });
+        fs5.writeFileSync(target, f.code, "utf8");
+        written.push(f.name);
+      } catch {
+      }
+    }
+    return written;
   }
   function lastAssistant() {
     for (let i = turns.length - 1; i >= 0; i--) {
@@ -34629,11 +34717,12 @@ ${c.text}`).join("\n\n") + "\n\n---\n\n" : "";
       return;
     }
     const name = resolveFilename(arg);
-    const target = path5.resolve(process.cwd(), name);
+    const target = path6.resolve(process.cwd(), name);
     const existed = fs5.existsSync(target);
     try {
       fs5.writeFileSync(target, body, "utf8");
       say(`${existed ? "overwrote" : "saved"} ${name} (${body.length} chars) \u2192 ${target}`);
+      refreshTree();
     } catch (err) {
       say(`could not save ${name}: ${err.message}`, "error");
     }
@@ -34664,6 +34753,7 @@ ${c.text}`).join("\n\n") + "\n\n---\n\n" : "";
         const out = `${stdout || ""}${stderr || ""}`.trim();
         if (out) say(out.slice(0, 4e3), err ? "error" : void 0);
         else say(`(no output \xB7 exit ${err?.code ?? 0})`, err ? "error" : void 0);
+        refreshTree();
       }
     );
   }
@@ -34685,6 +34775,13 @@ ${c.text}`).join("\n\n") + "\n\n---\n\n" : "";
       setContext([]);
     } else if (id === "save") {
       doSave(arg);
+    } else if (id === "build") {
+      const next = !buildMode;
+      setBuildMode(next);
+      setConfig(saveConfig({ buildMode: next }));
+      say(
+        next ? "build mode on \u2014 I will split code into files and create them for you." : "build mode off \u2014 code stays in the chat."
+      );
     } else if (id === "fetch") {
       doFetch(arg);
     } else if (id === "cost") {
@@ -34901,7 +34998,8 @@ ${c.text}`).join("\n\n") + "\n\n---\n\n" : "";
         sent: usage.sent,
         received: usage.received,
         busy,
-        contextCount: context.length
+        contextCount: context.length,
+        build: buildMode
       }
     )
   ] });

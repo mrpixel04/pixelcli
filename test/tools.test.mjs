@@ -1,8 +1,11 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import http from 'node:http';
+import path from 'node:path';
 import { extractLastCode, resolveFilename } from '../src/save.js';
 import { htmlToText, normalizeUrl, fetchPage } from '../src/web.js';
+import { parseFiles, safeResolve } from '../src/build.js';
+import { collapseCode } from '../src/display.js';
 
 test('extractLastCode pulls the last fenced block', () => {
   const msg = 'here:\n```html\n<h1>hi</h1>\n```\nthen\n```js\nconsole.log(1)\n```';
@@ -52,6 +55,40 @@ test('fetchPage returns readable text from a page', async () => {
   } finally {
     server.close();
   }
+});
+
+test('parseFiles extracts filename-labelled code blocks, ignores unlabelled', () => {
+  const reply =
+    'Here you go:\n\n```html index.html\n<h1>hi</h1>\n```\n\n' +
+    '```css styles.css\nbody{}\n```\n\n' +
+    '```\nplain block, no name\n```';
+  const files = parseFiles(reply);
+  assert.deepEqual(
+    files.map((f) => f.name),
+    ['index.html', 'styles.css'],
+  );
+  assert.equal(files[0].code, '<h1>hi</h1>');
+});
+
+test('parseFiles reads a bare filename fence', () => {
+  const files = parseFiles('```app.js\nconsole.log(1)\n```');
+  assert.equal(files[0].name, 'app.js');
+});
+
+test('safeResolve keeps paths inside root and rejects escapes', () => {
+  const root = '/tmp/proj';
+  assert.equal(safeResolve(root, 'src/app.js'), path.join(root, 'src/app.js'));
+  assert.equal(safeResolve(root, '../evil.js'), null);
+  assert.equal(safeResolve(root, '/etc/passwd'), null);
+});
+
+test('collapseCode summarises code blocks and streaming fences', () => {
+  const closed = collapseCode('intro\n```js app.js\na\nb\nc\n```\ndone');
+  assert.match(closed, /▸ js app\.js · 3 lines/);
+  assert.doesNotMatch(closed, /a\nb\nc/);
+
+  const streaming = collapseCode('intro\n```html index.html\n<h1>');
+  assert.match(streaming, /writing…/);
 });
 
 test('fetchPage throws on a non-ok response', async () => {
