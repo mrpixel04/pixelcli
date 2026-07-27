@@ -11,6 +11,8 @@ import AuthPanel from './components/AuthPanel.jsx';
 import Prompt from './components/Prompt.jsx';
 import Banner from './components/Banner.jsx';
 import SlashHints from './components/SlashHints.jsx';
+import Sidebar from './components/Sidebar.jsx';
+import { buildTree } from './tree.js';
 import { theme, providerColor } from './theme.js';
 import { allModels, providerOf, streamChat } from './providers.js';
 import { getKey, setKey, deleteKey, authStatus } from './auth.js';
@@ -60,10 +62,12 @@ export default function App() {
   const [authRows, setAuthRows] = useState(() => authStatus());
   const [entering, setEntering] = useState(false);
   const [keyDraft, setKeyDraft] = useState('');
+  const [showSidebar, setShowSidebar] = useState(true);
   const abortRef = useRef(null);
 
   const cwd = useMemo(shortCwd, []);
   const branch = useMemo(gitBranch, []);
+  const tree = useMemo(() => buildTree(process.cwd()), []);
   const model = config.model;
   const provider = providerOf(model);
   // shells out to the macOS Keychain, so never call this on every render
@@ -172,7 +176,7 @@ export default function App() {
       say(
         'commands  ' +
           COMMANDS.map((c) => c.label).join('  ') +
-          '\nkeys      ^p commands · ^o model · ^r stop · ^c quit',
+          '\nkeys      ^p commands · ^o model · ^b sidebar · ^r stop · ^c quit',
       );
     } else if (id === 'quit') {
       exit();
@@ -220,6 +224,10 @@ export default function App() {
     if (key.ctrl && input === 'c') return exit();
     if (key.ctrl && input === 'r') {
       abortRef.current?.abort();
+      return;
+    }
+    if (key.ctrl && input === 'b') {
+      setShowSidebar((s) => !s);
       return;
     }
 
@@ -323,33 +331,43 @@ export default function App() {
         ready={Boolean(keyState.key)}
       />
 
-      {view === 'auth' ? (
-        <AuthPanel rows={authRows} index={index} entering={entering} draft={keyDraft} />
-      ) : turns.length === 0 ? (
-        <Banner />
-      ) : (
-        <Log turns={turns} />
-      )}
+      <Box flexDirection="row">
+        {showSidebar ? <Sidebar cwd={cwd} tree={tree} width="20%" /> : null}
 
-      {view === 'models' || view === 'commands' ? (
-        <Palette
-          prompt={view === 'models' ? '› switch model' : '› /'}
-          query={query}
-          items={view === 'models' ? modelItems : commandItems}
-          index={index}
-          footer={
-            view === 'models' ? '↑↓ move · ⏎ select · esc cancel' : '↑↓ move · ⏎ run · esc cancel'
-          }
-        />
-      ) : view === 'chat' ? (
-        <Box flexDirection="column">
-          <Box borderStyle="round" borderColor={theme.line} paddingX={1} marginX={1}>
-            <Text color={providerColor[provider] ?? theme.faint}>› </Text>
-            <Prompt value={draft} cursor={cursor} placeholder=" ask anything, or / for commands" />
-          </Box>
-          {slashItems.length > 0 ? <SlashHints items={slashItems} /> : null}
+        <Box flexDirection="column" flexGrow={1} width={showSidebar ? '80%' : '100%'}>
+          {view === 'auth' ? (
+            <AuthPanel rows={authRows} index={index} entering={entering} draft={keyDraft} />
+          ) : turns.length === 0 ? (
+            <Banner />
+          ) : (
+            <Log turns={turns} />
+          )}
+
+          {view === 'models' || view === 'commands' ? (
+            <Palette
+              prompt={view === 'models' ? '› switch model' : '› /'}
+              query={query}
+              items={view === 'models' ? modelItems : commandItems}
+              index={index}
+              footer={
+                view === 'models' ? '↑↓ move · ⏎ select · esc cancel' : '↑↓ move · ⏎ run · esc cancel'
+              }
+            />
+          ) : view === 'chat' ? (
+            <Box flexDirection="column">
+              <Box borderStyle="round" borderColor={theme.line} paddingX={1} marginX={1}>
+                <Text color={providerColor[provider] ?? theme.faint}>› </Text>
+                <Prompt
+                  value={draft}
+                  cursor={cursor}
+                  placeholder=" ask anything, or / for commands"
+                />
+              </Box>
+              {slashItems.length > 0 ? <SlashHints items={slashItems} /> : null}
+            </Box>
+          ) : null}
         </Box>
-      ) : null}
+      </Box>
 
       <StatusLine
         mode={view === 'chat' ? 'CHAT' : view.toUpperCase()}

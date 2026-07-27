@@ -7867,9 +7867,9 @@ var require_react_reconciler_development = __commonJS({
       module.exports = function $$$reconciler($$$hostConfig) {
         var exports2 = {};
         "use strict";
-        var React20 = require_react();
+        var React21 = require_react();
         var Scheduler = require_scheduler();
-        var ReactSharedInternals = React20.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
+        var ReactSharedInternals = React21.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
         var suppressWarning = false;
         function setSuppressWarning(newSuppressWarning) {
           {
@@ -22746,10 +22746,10 @@ var require_react_reconciler_development = __commonJS({
         var setErrorHandler = null;
         var setSuspenseHandler = null;
         {
-          var copyWithDeleteImpl = function(obj, path3, index2) {
-            var key = path3[index2];
+          var copyWithDeleteImpl = function(obj, path4, index2) {
+            var key = path4[index2];
             var updated = isArray(obj) ? obj.slice() : assign({}, obj);
-            if (index2 + 1 === path3.length) {
+            if (index2 + 1 === path4.length) {
               if (isArray(updated)) {
                 updated.splice(key, 1);
               } else {
@@ -22757,11 +22757,11 @@ var require_react_reconciler_development = __commonJS({
               }
               return updated;
             }
-            updated[key] = copyWithDeleteImpl(obj[key], path3, index2 + 1);
+            updated[key] = copyWithDeleteImpl(obj[key], path4, index2 + 1);
             return updated;
           };
-          var copyWithDelete = function(obj, path3) {
-            return copyWithDeleteImpl(obj, path3, 0);
+          var copyWithDelete = function(obj, path4) {
+            return copyWithDeleteImpl(obj, path4, 0);
           };
           var copyWithRenameImpl = function(obj, oldPath, newPath, index2) {
             var oldKey = oldPath[index2];
@@ -22799,17 +22799,17 @@ var require_react_reconciler_development = __commonJS({
             }
             return copyWithRenameImpl(obj, oldPath, newPath, 0);
           };
-          var copyWithSetImpl = function(obj, path3, index2, value) {
-            if (index2 >= path3.length) {
+          var copyWithSetImpl = function(obj, path4, index2, value) {
+            if (index2 >= path4.length) {
               return value;
             }
-            var key = path3[index2];
+            var key = path4[index2];
             var updated = isArray(obj) ? obj.slice() : assign({}, obj);
-            updated[key] = copyWithSetImpl(obj[key], path3, index2 + 1, value);
+            updated[key] = copyWithSetImpl(obj[key], path4, index2 + 1, value);
             return updated;
           };
-          var copyWithSet = function(obj, path3, value) {
-            return copyWithSetImpl(obj, path3, 0, value);
+          var copyWithSet = function(obj, path4, value) {
+            return copyWithSetImpl(obj, path4, 0, value);
           };
           var findHook = function(fiber, id) {
             var currentHook2 = fiber.memoizedState;
@@ -22819,10 +22819,10 @@ var require_react_reconciler_development = __commonJS({
             }
             return currentHook2;
           };
-          overrideHookState = function(fiber, id, path3, value) {
+          overrideHookState = function(fiber, id, path4, value) {
             var hook = findHook(fiber, id);
             if (hook !== null) {
-              var newState = copyWithSet(hook.memoizedState, path3, value);
+              var newState = copyWithSet(hook.memoizedState, path4, value);
               hook.memoizedState = newState;
               hook.baseState = newState;
               fiber.memoizedProps = assign({}, fiber.memoizedProps);
@@ -22832,10 +22832,10 @@ var require_react_reconciler_development = __commonJS({
               }
             }
           };
-          overrideHookStateDeletePath = function(fiber, id, path3) {
+          overrideHookStateDeletePath = function(fiber, id, path4) {
             var hook = findHook(fiber, id);
             if (hook !== null) {
-              var newState = copyWithDelete(hook.memoizedState, path3);
+              var newState = copyWithDelete(hook.memoizedState, path4);
               hook.memoizedState = newState;
               hook.baseState = newState;
               fiber.memoizedProps = assign({}, fiber.memoizedProps);
@@ -22858,8 +22858,8 @@ var require_react_reconciler_development = __commonJS({
               }
             }
           };
-          overrideProps = function(fiber, path3, value) {
-            fiber.pendingProps = copyWithSet(fiber.memoizedProps, path3, value);
+          overrideProps = function(fiber, path4, value) {
+            fiber.pendingProps = copyWithSet(fiber.memoizedProps, path4, value);
             if (fiber.alternate) {
               fiber.alternate.pendingProps = fiber.pendingProps;
             }
@@ -22868,8 +22868,8 @@ var require_react_reconciler_development = __commonJS({
               scheduleUpdateOnFiber(root, fiber, SyncLane, NoTimestamp);
             }
           };
-          overridePropsDeletePath = function(fiber, path3) {
-            fiber.pendingProps = copyWithDelete(fiber.memoizedProps, path3);
+          overridePropsDeletePath = function(fiber, path4) {
+            fiber.pendingProps = copyWithDelete(fiber.memoizedProps, path4);
             if (fiber.alternate) {
               fiber.alternate.pendingProps = fiber.pendingProps;
             }
@@ -27290,7 +27290,7 @@ var require_react_jsx_runtime_development = __commonJS({
     if (process.env.NODE_ENV !== "production") {
       (function() {
         "use strict";
-        var React20 = require_react();
+        var React21 = require_react();
         var REACT_ELEMENT_TYPE = Symbol.for("react.element");
         var REACT_PORTAL_TYPE = Symbol.for("react.portal");
         var REACT_FRAGMENT_TYPE = Symbol.for("react.fragment");
@@ -27316,7 +27316,7 @@ var require_react_jsx_runtime_development = __commonJS({
           }
           return null;
         }
-        var ReactSharedInternals = React20.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
+        var ReactSharedInternals = React21.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
         function error(format) {
           {
             {
@@ -28166,11 +28166,11 @@ var require_react_jsx_runtime_development = __commonJS({
             return jsxWithValidation(type, props, key, false);
           }
         }
-        var jsx11 = jsxWithValidationDynamic;
-        var jsxs10 = jsxWithValidationStatic;
+        var jsx12 = jsxWithValidationDynamic;
+        var jsxs11 = jsxWithValidationStatic;
         exports.Fragment = REACT_FRAGMENT_TYPE;
-        exports.jsx = jsx11;
-        exports.jsxs = jsxs10;
+        exports.jsx = jsx12;
+        exports.jsxs = jsxs11;
       })();
     }
   }
@@ -28189,7 +28189,7 @@ var require_jsx_runtime = __commonJS({
 });
 
 // src/cli.jsx
-var import_react31 = __toESM(require_react(), 1);
+var import_react32 = __toESM(require_react(), 1);
 
 // node_modules/ink/build/render.js
 import { Stream } from "node:stream";
@@ -32879,8 +32879,8 @@ function Text({ color, backgroundColor, dimColor = false, bold = false, italic =
 }
 
 // node_modules/ink/build/components/ErrorOverview.js
-var cleanupPath = (path3) => {
-  return path3?.replace(`file://${cwd()}/`, "");
+var cleanupPath = (path4) => {
+  return path4?.replace(`file://${cwd()}/`, "");
 };
 var stackUtils = new import_stack_utils.default({
   cwd: cwd(),
@@ -33807,7 +33807,7 @@ var import_react21 = __toESM(require_react(), 1);
 import process13 from "node:process";
 
 // src/app.jsx
-var import_react30 = __toESM(require_react(), 1);
+var import_react31 = __toESM(require_react(), 1);
 import { execFileSync as execFileSync2 } from "node:child_process";
 import os5 from "node:os";
 
@@ -33836,7 +33836,7 @@ var providerColor = {
 };
 
 // src/meta.js
-var VERSION = true ? "0.1.2" : "0.0.0-dev";
+var VERSION = true ? "0.2.0" : "0.0.0-dev";
 var NAME = "pixelcli";
 
 // src/components/Header.jsx
@@ -34064,6 +34064,86 @@ function SlashHints({ items }) {
   ] });
 }
 
+// src/components/Sidebar.jsx
+var import_react30 = __toESM(require_react(), 1);
+var import_jsx_runtime9 = __toESM(require_jsx_runtime(), 1);
+function truncate(s, n) {
+  if (n <= 1) return "\u2026";
+  return s.length > n ? `${s.slice(0, n - 1)}\u2026` : s;
+}
+function Sidebar({ cwd: cwd2, tree, width }) {
+  return /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)(
+    Box_default,
+    {
+      width,
+      flexDirection: "column",
+      borderStyle: "single",
+      borderColor: theme.line,
+      borderTop: false,
+      borderBottom: false,
+      borderLeft: false,
+      paddingX: 1,
+      children: [
+        /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(Text, { color: theme.logo, bold: true, wrap: "truncate", children: "project" }),
+        /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(Text, { color: theme.faint, wrap: "truncate-start", children: cwd2 }),
+        /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(Box_default, { marginTop: 1, flexDirection: "column", children: tree.length === 0 ? /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(Text, { color: theme.faint, children: "(empty)" }) : tree.map((n, i) => /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)(
+          Text,
+          {
+            color: n.isDir ? theme.accent : theme.text,
+            wrap: "truncate-end",
+            children: [
+              "  ".repeat(n.depth),
+              n.isDir ? "\u25B8 " : "\xB7 ",
+              truncate(n.name, 24 - n.depth * 2)
+            ]
+          },
+          `${n.depth}:${n.name}:${i}`
+        )) })
+      ]
+    }
+  );
+}
+
+// src/tree.js
+import fs2 from "node:fs";
+import path from "node:path";
+var IGNORE = /* @__PURE__ */ new Set([
+  "node_modules",
+  ".git",
+  "dist",
+  "coverage",
+  ".cache",
+  ".next",
+  ".turbo",
+  "vendor"
+]);
+function buildTree(root, { maxDepth = 2, maxEntries = 200 } = {}) {
+  const out = [];
+  function walk(dir3, depth) {
+    if (depth > maxDepth || out.length >= maxEntries) return;
+    let entries;
+    try {
+      entries = fs2.readdirSync(dir3, { withFileTypes: true });
+    } catch {
+      return;
+    }
+    entries = entries.filter((e) => !IGNORE.has(e.name) && !e.name.startsWith(".")).sort((a, b) => {
+      const ad = a.isDirectory() ? 0 : 1;
+      const bd = b.isDirectory() ? 0 : 1;
+      if (ad !== bd) return ad - bd;
+      return a.name.localeCompare(b.name);
+    });
+    for (const e of entries) {
+      if (out.length >= maxEntries) break;
+      const isDir = e.isDirectory();
+      out.push({ depth, name: e.name, isDir });
+      if (isDir) walk(path.join(dir3, e.name), depth + 1);
+    }
+  }
+  walk(root, 0);
+  return out;
+}
+
 // src/providers.js
 var providers = {
   anthropic: {
@@ -34244,27 +34324,27 @@ function streamChat({ provider, model, apiKey, messages, signal }) {
 
 // src/auth.js
 import { execFileSync } from "node:child_process";
-import fs2 from "node:fs";
-import path from "node:path";
+import fs3 from "node:fs";
+import path2 from "node:path";
 import os3 from "node:os";
 var overrideDir = process.env.PIXELCLI_CONFIG_DIR;
 var isMac = process.platform === "darwin" && !overrideDir;
-var dir = overrideDir ?? path.join(os3.homedir(), ".config", "pixelcli");
-var fallbackFile = path.join(dir, "keys.json");
+var dir = overrideDir ?? path2.join(os3.homedir(), ".config", "pixelcli");
+var fallbackFile = path2.join(dir, "keys.json");
 var service = (provider) => `pixelcli.${provider}`;
 function ensureDir() {
-  fs2.mkdirSync(dir, { recursive: true, mode: 448 });
+  fs3.mkdirSync(dir, { recursive: true, mode: 448 });
 }
 function readFallback() {
   try {
-    return JSON.parse(fs2.readFileSync(fallbackFile, "utf8"));
+    return JSON.parse(fs3.readFileSync(fallbackFile, "utf8"));
   } catch {
     return {};
   }
 }
 function writeFallback(obj) {
   ensureDir();
-  fs2.writeFileSync(fallbackFile, JSON.stringify(obj, null, 2), { mode: 384 });
+  fs3.writeFileSync(fallbackFile, JSON.stringify(obj, null, 2), { mode: 384 });
 }
 function keychainGet(provider) {
   try {
@@ -34336,16 +34416,16 @@ function authStatus() {
 }
 
 // src/config.js
-import fs3 from "node:fs";
-import path2 from "node:path";
+import fs4 from "node:fs";
+import path3 from "node:path";
 import os4 from "node:os";
 var overrideDir2 = process.env.PIXELCLI_CONFIG_DIR;
-var dir2 = overrideDir2 ?? path2.join(os4.homedir(), ".config", "pixelcli");
-var file = path2.join(dir2, "config.json");
+var dir2 = overrideDir2 ?? path3.join(os4.homedir(), ".config", "pixelcli");
+var file = path3.join(dir2, "config.json");
 var DEFAULTS = { model: "claude-sonnet-5" };
 function loadConfig() {
   try {
-    return { ...DEFAULTS, ...JSON.parse(fs3.readFileSync(file, "utf8")) };
+    return { ...DEFAULTS, ...JSON.parse(fs4.readFileSync(file, "utf8")) };
   } catch {
     return { ...DEFAULTS };
   }
@@ -34353,8 +34433,8 @@ function loadConfig() {
 function saveConfig(patch) {
   const next = { ...loadConfig(), ...patch };
   try {
-    fs3.mkdirSync(dir2, { recursive: true, mode: 448 });
-    fs3.writeFileSync(file, JSON.stringify(next, null, 2), { mode: 384 });
+    fs4.mkdirSync(dir2, { recursive: true, mode: 448 });
+    fs4.writeFileSync(file, JSON.stringify(next, null, 2), { mode: 384 });
   } catch {
   }
   return next;
@@ -34364,7 +34444,7 @@ function configPath() {
 }
 
 // src/app.jsx
-var import_jsx_runtime9 = __toESM(require_jsx_runtime(), 1);
+var import_jsx_runtime10 = __toESM(require_jsx_runtime(), 1);
 var COMMANDS = [
   { id: "model", label: "/model", tag: "switch model" },
   { id: "auth", label: "/auth", tag: "add or remove api keys" },
@@ -34393,29 +34473,31 @@ var uid = () => `t${nextId++}`;
 var estimate = (s) => Math.ceil((s || "").length / 4);
 function App2() {
   const { exit } = use_app_default();
-  const [config, setConfig] = (0, import_react30.useState)(() => loadConfig());
-  const [turns, setTurns] = (0, import_react30.useState)([]);
-  const [draft, setDraft] = (0, import_react30.useState)("");
-  const [cursor, setCursor] = (0, import_react30.useState)(0);
-  const [view, setView] = (0, import_react30.useState)("chat");
-  const [query, setQuery] = (0, import_react30.useState)("");
-  const [index, setIndex] = (0, import_react30.useState)(0);
-  const [busy, setBusy] = (0, import_react30.useState)(false);
-  const [usage, setUsage] = (0, import_react30.useState)({ sent: 0, received: 0 });
-  const [authRows, setAuthRows] = (0, import_react30.useState)(() => authStatus());
-  const [entering, setEntering] = (0, import_react30.useState)(false);
-  const [keyDraft, setKeyDraft] = (0, import_react30.useState)("");
-  const abortRef = (0, import_react30.useRef)(null);
-  const cwd2 = (0, import_react30.useMemo)(shortCwd, []);
-  const branch = (0, import_react30.useMemo)(gitBranch, []);
+  const [config, setConfig] = (0, import_react31.useState)(() => loadConfig());
+  const [turns, setTurns] = (0, import_react31.useState)([]);
+  const [draft, setDraft] = (0, import_react31.useState)("");
+  const [cursor, setCursor] = (0, import_react31.useState)(0);
+  const [view, setView] = (0, import_react31.useState)("chat");
+  const [query, setQuery] = (0, import_react31.useState)("");
+  const [index, setIndex] = (0, import_react31.useState)(0);
+  const [busy, setBusy] = (0, import_react31.useState)(false);
+  const [usage, setUsage] = (0, import_react31.useState)({ sent: 0, received: 0 });
+  const [authRows, setAuthRows] = (0, import_react31.useState)(() => authStatus());
+  const [entering, setEntering] = (0, import_react31.useState)(false);
+  const [keyDraft, setKeyDraft] = (0, import_react31.useState)("");
+  const [showSidebar, setShowSidebar] = (0, import_react31.useState)(true);
+  const abortRef = (0, import_react31.useRef)(null);
+  const cwd2 = (0, import_react31.useMemo)(shortCwd, []);
+  const branch = (0, import_react31.useMemo)(gitBranch, []);
+  const tree = (0, import_react31.useMemo)(() => buildTree(process.cwd()), []);
   const model = config.model;
   const provider = providerOf(model);
-  const keyState = (0, import_react30.useMemo)(() => getKey(provider), [provider, authRows]);
-  const push = (0, import_react30.useCallback)((turn) => {
+  const keyState = (0, import_react31.useMemo)(() => getKey(provider), [provider, authRows]);
+  const push = (0, import_react31.useCallback)((turn) => {
     setTurns((prev) => [...prev, { id: uid(), ...turn }]);
   }, []);
-  const say = (0, import_react30.useCallback)((content, tone) => push({ role: "system", content, tone }), [push]);
-  const modelItems = (0, import_react30.useMemo)(() => {
+  const say = (0, import_react31.useCallback)((content, tone) => push({ role: "system", content, tone }), [push]);
+  const modelItems = (0, import_react31.useMemo)(() => {
     const q = query.toLowerCase();
     return allModels().filter((m) => m.id.toLowerCase().includes(q) || m.provider.includes(q)).map((m) => ({
       id: m.id,
@@ -34425,11 +34507,11 @@ function App2() {
       tag: m.id === model ? `current \xB7 ${m.context}` : m.context
     }));
   }, [query, model]);
-  const commandItems = (0, import_react30.useMemo)(() => {
+  const commandItems = (0, import_react31.useMemo)(() => {
     const q = query.toLowerCase();
     return COMMANDS.filter((c) => c.label.includes(q));
   }, [query]);
-  const slashItems = (0, import_react30.useMemo)(() => {
+  const slashItems = (0, import_react31.useMemo)(() => {
     if (!draft.startsWith("/") || draft.includes(" ")) return [];
     const q = draft.slice(1).toLowerCase();
     return COMMANDS.filter((c) => c.id.startsWith(q));
@@ -34497,7 +34579,7 @@ function App2() {
       say(`this session: \u21E1${usage.sent} \u21E3${usage.received} tokens (estimated)`);
     } else if (id === "help") {
       say(
-        "commands  " + COMMANDS.map((c) => c.label).join("  ") + "\nkeys      ^p commands \xB7 ^o model \xB7 ^r stop \xB7 ^c quit"
+        "commands  " + COMMANDS.map((c) => c.label).join("  ") + "\nkeys      ^p commands \xB7 ^o model \xB7 ^b sidebar \xB7 ^r stop \xB7 ^c quit"
       );
     } else if (id === "quit") {
       exit();
@@ -34540,6 +34622,10 @@ function App2() {
     if (key.ctrl && input === "c") return exit();
     if (key.ctrl && input === "r") {
       abortRef.current?.abort();
+      return;
+    }
+    if (key.ctrl && input === "b") {
+      setShowSidebar((s) => !s);
       return;
     }
     if (view === "chat") {
@@ -34629,8 +34715,8 @@ function App2() {
       setIndex(0);
     }
   });
-  return /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)(Box_default, { flexDirection: "column", children: [
-    /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(
+  return /* @__PURE__ */ (0, import_jsx_runtime10.jsxs)(Box_default, { flexDirection: "column", children: [
+    /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(
       Header,
       {
         cwd: cwd2,
@@ -34640,24 +34726,36 @@ function App2() {
         ready: Boolean(keyState.key)
       }
     ),
-    view === "auth" ? /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(AuthPanel, { rows: authRows, index, entering, draft: keyDraft }) : turns.length === 0 ? /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(Banner, {}) : /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(Log, { turns }),
-    view === "models" || view === "commands" ? /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(
-      Palette,
-      {
-        prompt: view === "models" ? "\u203A switch model" : "\u203A /",
-        query,
-        items: view === "models" ? modelItems : commandItems,
-        index,
-        footer: view === "models" ? "\u2191\u2193 move \xB7 \u23CE select \xB7 esc cancel" : "\u2191\u2193 move \xB7 \u23CE run \xB7 esc cancel"
-      }
-    ) : view === "chat" ? /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)(Box_default, { flexDirection: "column", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)(Box_default, { borderStyle: "round", borderColor: theme.line, paddingX: 1, marginX: 1, children: [
-        /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(Text, { color: providerColor[provider] ?? theme.faint, children: "\u203A " }),
-        /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(Prompt, { value: draft, cursor, placeholder: " ask anything, or / for commands" })
-      ] }),
-      slashItems.length > 0 ? /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(SlashHints, { items: slashItems }) : null
-    ] }) : null,
-    /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(
+    /* @__PURE__ */ (0, import_jsx_runtime10.jsxs)(Box_default, { flexDirection: "row", children: [
+      showSidebar ? /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(Sidebar, { cwd: cwd2, tree, width: "20%" }) : null,
+      /* @__PURE__ */ (0, import_jsx_runtime10.jsxs)(Box_default, { flexDirection: "column", flexGrow: 1, width: showSidebar ? "80%" : "100%", children: [
+        view === "auth" ? /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(AuthPanel, { rows: authRows, index, entering, draft: keyDraft }) : turns.length === 0 ? /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(Banner, {}) : /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(Log, { turns }),
+        view === "models" || view === "commands" ? /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(
+          Palette,
+          {
+            prompt: view === "models" ? "\u203A switch model" : "\u203A /",
+            query,
+            items: view === "models" ? modelItems : commandItems,
+            index,
+            footer: view === "models" ? "\u2191\u2193 move \xB7 \u23CE select \xB7 esc cancel" : "\u2191\u2193 move \xB7 \u23CE run \xB7 esc cancel"
+          }
+        ) : view === "chat" ? /* @__PURE__ */ (0, import_jsx_runtime10.jsxs)(Box_default, { flexDirection: "column", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime10.jsxs)(Box_default, { borderStyle: "round", borderColor: theme.line, paddingX: 1, marginX: 1, children: [
+            /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(Text, { color: providerColor[provider] ?? theme.faint, children: "\u203A " }),
+            /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(
+              Prompt,
+              {
+                value: draft,
+                cursor,
+                placeholder: " ask anything, or / for commands"
+              }
+            )
+          ] }),
+          slashItems.length > 0 ? /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(SlashHints, { items: slashItems }) : null
+        ] }) : null
+      ] })
+    ] }),
+    /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(
       StatusLine,
       {
         mode: view === "chat" ? "CHAT" : view.toUpperCase(),
@@ -34670,7 +34768,7 @@ function App2() {
 }
 
 // src/cli.jsx
-var import_jsx_runtime10 = __toESM(require_jsx_runtime(), 1);
+var import_jsx_runtime11 = __toESM(require_jsx_runtime(), 1);
 function parse(argv) {
   const opts = { prompt: null, model: null, rest: [] };
   for (let i = 0; i < argv.length; i++) {
@@ -34786,7 +34884,7 @@ async function main() {
 `);
     process13.exit(1);
   }
-  const { waitUntilExit } = render_default(/* @__PURE__ */ (0, import_jsx_runtime10.jsx)(App2, {}));
+  const { waitUntilExit } = render_default(/* @__PURE__ */ (0, import_jsx_runtime11.jsx)(App2, {}));
   await waitUntilExit();
 }
 main();

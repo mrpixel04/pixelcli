@@ -1,6 +1,6 @@
 {
   "name": "pixelcli",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "One terminal chat UI for Anthropic, DeepSeek, OpenAI and Gemini. Switch model mid-conversation without losing the thread.",
   "type": "module",
   "bin": {
