@@ -1,6 +1,7 @@
 import React from 'react';
 import { Box, Text } from 'ink';
 import { theme, providerColor } from '../theme.js';
+import { collapseCode } from '../display.js';
 
 function Turn({ turn }) {
   if (turn.role === 'user') {
@@ -20,7 +21,11 @@ function Turn({ turn }) {
           <Text color={accent}>{'● '}</Text>
           <Text color={theme.faint}>{turn.model}</Text>
         </Text>
-        {turn.content ? <Text>{turn.content}</Text> : <Text color={theme.faint}>…</Text>}
+        {turn.content ? (
+          <Text>{collapseCode(turn.content)}</Text>
+        ) : (
+          <Text color={theme.faint}>…</Text>
+        )}
       </Box>
     );
   }

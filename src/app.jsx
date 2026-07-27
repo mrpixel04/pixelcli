@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useRef, useCallback } from 'react';
+import React, { useState, useMemo, useRef, useCallback, useEffect } from 'react';
 import { Box, Text, useInput, useApp } from 'ink';
 import { execFileSync, exec } from 'node:child_process';
 import fs from 'node:fs';
@@ -17,6 +17,7 @@ import Sidebar from './components/Sidebar.jsx';
 import { buildTree } from './tree.js';
 import { fetchPage } from './web.js';
 import { extractLastCode, resolveFilename } from './save.js';
+import { parseFiles, safeResolve } from './build.js';
 import { theme, providerColor } from './theme.js';
 import { allModels, providerOf, streamChat } from './providers.js';
 import { getKey, setKey, deleteKey, authStatus } from './auth.js';
@@ -27,6 +28,7 @@ const COMMANDS = [
   { id: 'auth', label: '/auth', tag: 'add or remove api keys' },
   { id: 'new', label: '/new', tag: 'clear this session' },
   { id: 'save', label: '/save', tag: 'save last reply to a file (default .html)' },
+  { id: 'build', label: '/build', tag: 'toggle auto-writing code into project files' },
   { id: 'fetch', label: '/fetch', tag: 'read a web page into context' },
   { id: 'cost', label: '/cost', tag: 'token usage so far' },
   { id: 'help', label: '/help', tag: 'keybinds and commands' },
@@ -71,11 +73,30 @@ export default function App() {
   const [showSidebar, setShowSidebar] = useState(true);
   const [slashIndex, setSlashIndex] = useState(0); // highlighted inline / suggestion
   const [context, setContext] = useState([]); // fetched web pages, injected as reference
+  const [tree, setTree] = useState(() => buildTree(process.cwd()));
+  const [buildMode, setBuildMode] = useState(() => Boolean(loadConfig().buildMode));
   const abortRef = useRef(null);
+  const treeSig = useRef('');
+
+  // Rebuild the file tree, but only re-render when it actually changed.
+  const refreshTree = useCallback(() => {
+    const next = buildTree(process.cwd());
+    const sig = next.map((n) => `${n.depth}${n.isDir ? 'd' : 'f'}${n.name}`).join('|');
+    if (sig !== treeSig.current) {
+      treeSig.current = sig;
+      setTree(next);
+    }
+  }, []);
+
+  // Poll so files created outside pixelcli (or by /save, !, build mode) appear live.
+  useEffect(() => {
+    refreshTree();
+    const id = setInterval(refreshTree, 1500);
+    return () => clearInterval(id);
+  }, [refreshTree]);
 
   const cwd = useMemo(shortCwd, []);
   const branch = useMemo(gitBranch, []);
-  const tree = useMemo(() => buildTree(process.cwd()), []);
   const model = config.model;
   const provider = providerOf(model);
   // shells out to the macOS Keychain, so never call this on every render
@@ -132,11 +153,26 @@ export default function App() {
         '\n\n---\n\n'
       : '';
 
+    // In build mode, instruct the model to split code into filename-labelled
+    // blocks matching this project's stack, so pixelcli can auto-write the files.
+    const projectFiles = tree
+      .filter((n) => !n.isDir)
+      .slice(0, 40)
+      .map((n) => n.name);
+    const buildInstr = buildMode
+      ? 'Build mode is on. When you write code, split it into appropriate separate ' +
+        "files (HTML, CSS, JS, controllers, config, etc.) matching this project's " +
+        'stack and conventions. Begin every code block fence with the target ' +
+        'filename, for example:\n```css styles.css\n...\n```\n' +
+        (projectFiles.length ? `Existing project files: ${projectFiles.join(', ')}.\n` : '') +
+        'Keep explanation brief.\n\n'
+      : '';
+
     const history = [
       ...turns
         .filter((t) => t.role === 'user' || t.role === 'assistant')
         .map((t) => ({ role: t.role, content: t.content })),
-      { role: 'user', content: ctxBlock + text },
+      { role: 'user', content: buildInstr + ctxBlock + text },
     ];
 
     const replyId = uid();
@@ -151,6 +187,7 @@ export default function App() {
     const controller = new AbortController();
     abortRef.current = controller;
 
+    let full = '';
     try {
       for await (const chunk of streamChat({
         provider,
@@ -159,10 +196,18 @@ export default function App() {
         messages: history,
         signal: controller.signal,
       })) {
+        full += chunk;
         setTurns((prev) =>
           prev.map((t) => (t.id === replyId ? { ...t, content: t.content + chunk } : t)),
         );
         setUsage((u) => ({ ...u, received: u.received + estimate(chunk) }));
+      }
+      if (buildMode && full.trim()) {
+        const created = writeProjectFiles(full);
+        if (created.length) {
+          refreshTree();
+          say(`build: wrote ${created.join(', ')}`);
+        }
       }
     } catch (err) {
       if (err.name !== 'AbortError') say(`${provider}: ${err.message}`, 'error');
@@ -170,6 +215,24 @@ export default function App() {
       setBusy(false);
       abortRef.current = null;
     }
+  }
+
+  // Parse filename-labelled code blocks from a reply and write them into the
+  // project. Refuses paths that escape the working directory.
+  function writeProjectFiles(text) {
+    const written = [];
+    for (const f of parseFiles(text)) {
+      const target = safeResolve(process.cwd(), f.name);
+      if (!target) continue;
+      try {
+        fs.mkdirSync(path.dirname(target), { recursive: true });
+        fs.writeFileSync(target, f.code, 'utf8');
+        written.push(f.name);
+      } catch {
+        /* skip files that fail to write */
+      }
+    }
+    return written;
   }
 
   function lastAssistant() {
@@ -192,6 +255,7 @@ export default function App() {
     try {
       fs.writeFileSync(target, body, 'utf8');
       say(`${existed ? 'overwrote' : 'saved'} ${name} (${body.length} chars) → ${target}`);
+      refreshTree();
     } catch (err) {
       say(`could not save ${name}: ${err.message}`, 'error');
     }
@@ -227,6 +291,7 @@ export default function App() {
         const out = `${stdout || ''}${stderr || ''}`.trim();
         if (out) say(out.slice(0, 4000), err ? 'error' : undefined);
         else say(`(no output · exit ${err?.code ?? 0})`, err ? 'error' : undefined);
+        refreshTree(); // a command may have created files
       },
     );
   }
@@ -249,6 +314,15 @@ export default function App() {
       setContext([]);
     } else if (id === 'save') {
       doSave(arg);
+    } else if (id === 'build') {
+      const next = !buildMode;
+      setBuildMode(next);
+      setConfig(saveConfig({ buildMode: next }));
+      say(
+        next
+          ? 'build mode on — I will split code into files and create them for you.'
+          : 'build mode off — code stays in the chat.',
+      );
     } else if (id === 'fetch') {
       doFetch(arg);
     } else if (id === 'cost') {
@@ -489,6 +563,7 @@ export default function App() {
         received={usage.received}
         busy={busy}
         contextCount={context.length}
+        build={buildMode}
       />
     </Box>
   );

@@ -5,7 +5,7 @@ mid-conversation without losing the thread — one set of keybinds, one config, 
 place your keys live.
 
 ```
- ◆ pixelcli v0.3.0                     ~/dev/myapp  ⎇ main  ● claude-sonnet-5
+ ◆ pixelcli v0.4.0                     ~/dev/myapp  ⎇ main  ● claude-sonnet-5
 
  › explain this stack trace
 
@@ -42,6 +42,9 @@ models fast and keeping the conversation.
 - **Save, fetch, shell** — `/save [name]` writes the last reply to a file
   (default `.html`), `/fetch <url>` reads a web page into context, and a leading
   `!` runs a shell command.
+- **Build mode** (`/build`) — the model splits code into proper files for your
+  project's stack and pixelcli auto-creates them, live in the sidebar tree; long
+  code is collapsed in the chat.
 - **Secure key storage** — env var → macOS Keychain → `0600` file, in that order.
   Keys never touch `config.json`.
 - **One-shot mode** (`-p`) that prints to stdout and pipes.
@@ -53,7 +56,7 @@ Not published to npm — install the prebuilt tarball from a GitHub Release.
 `pixelcli` is then on your PATH in **every folder**, and there is no build step:
 
 ```sh
-npm install -g https://github.com/mrpixel04/pixelcli/releases/download/v0.3.0/pixelcli-0.3.0.tgz
+npm install -g https://github.com/mrpixel04/pixelcli/releases/download/v0.4.0/pixelcli-0.4.0.tgz
 ```
 
 Requires **Node 18+**. macOS and Linux today; Windows works apart from Keychain
