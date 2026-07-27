@@ -20,7 +20,7 @@ pixelcli is not on the npm registry. Install the prebuilt tarball from a GitHub
 Release — after that the `pixelcli` command works in **any folder**:
 
 ```sh
-npm install -g https://github.com/mrpixel04/pixelcli/releases/download/v0.2.0/pixelcli-0.2.0.tgz
+npm install -g https://github.com/mrpixel04/pixelcli/releases/download/v0.3.0/pixelcli-0.3.0.tgz
 ```
 
 The tarball is one self-contained file, so there is no build step and no dev
@@ -46,7 +46,7 @@ npm install -g .   # put pixelcli on your PATH from this clone
 Check it worked:
 
 ```sh
-pixelcli --version      # -> pixelcli v0.2.0
+pixelcli --version      # -> pixelcli v0.3.0
 ```
 
 ---
@@ -143,14 +143,36 @@ arrives. Switch models mid-conversation with `^o` — your history is kept.
 
 ### Slash commands
 
-| Command  | Does                  |
-| -------- | --------------------- |
-| `/model` | switch model          |
-| `/auth`  | add or remove keys    |
-| `/new`   | clear the session     |
-| `/cost`  | token usage so far    |
-| `/help`  | keybinds and commands |
-| `/quit`  | exit                  |
+| Command        | Does                                              |
+| -------------- | ------------------------------------------------- |
+| `/model`       | switch model                                      |
+| `/auth`        | add or remove keys                                |
+| `/save [name]` | save the last reply to a file (default `.html`)   |
+| `/fetch <url>` | read a web page into context                      |
+| `/new`         | clear the session (and any fetched context)       |
+| `/cost`        | token usage so far                                |
+| `/help`        | keybinds and commands                             |
+| `/quit`        | exit                                              |
+
+Type `/` and use **↑/↓** to move, **Tab** to complete, **Enter** to select.
+
+### Save a file, fetch a page, run a shell command
+
+```text
+> write me a landing page
+  ● claude-sonnet-5  <html>…</html>
+> /save                     # writes output.html (default extension)
+> /save index.html          # or name it yourself
+
+> /fetch example.com        # read a page into context, then ask about it
+> summarise that page
+
+> !ls -la                   # start a line with ! to run a bash command
+```
+
+`/save` writes the last reply's code block (or its text) to your working
+directory. `/fetch` pulls one URL's text in as reference — no search key needed.
+A leading `!` runs the rest of the line as a shell command and shows its output.
 
 ---
 
@@ -174,7 +196,7 @@ git diff | pixelcli -p "write a commit message for this diff"
 
 ```sh
 # update: install the latest release tarball again
-npm install -g https://github.com/mrpixel04/pixelcli/releases/download/v0.2.0/pixelcli-0.2.0.tgz
+npm install -g https://github.com/mrpixel04/pixelcli/releases/download/v0.3.0/pixelcli-0.3.0.tgz
 npm uninstall -g pixelcli                  # remove it
 ```
 

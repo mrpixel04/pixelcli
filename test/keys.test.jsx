@@ -81,12 +81,12 @@ test('typing /m suggests /model and Tab completes it', async () => {
   await type(stdin, '/m');
   await settle();
   assert.match(lastFrame(), /\/model/);
-  assert.match(lastFrame(), /tab to complete/);
+  assert.match(lastFrame(), /tab complete/);
 
   stdin.write('\t'); // Tab
   await settle();
   assert.match(lastFrame(), /\/model/); // completed into the input
-  assert.doesNotMatch(lastFrame(), /tab to complete/); // suggestions dismissed
+  assert.doesNotMatch(lastFrame(), /tab complete/); // suggestions dismissed
   unmount();
 });
 
@@ -97,6 +97,39 @@ test('an unambiguous slash prefix runs without full typing (/co -> /cost)', asyn
   stdin.write('\r');
   await settle();
   assert.match(lastFrame(), /tokens \(estimated\)/); // /cost output
+  unmount();
+});
+
+test('inline / menu navigates with arrows and Enter selects', async () => {
+  const { stdin, lastFrame, unmount } = render(<App />);
+  await settle();
+  stdin.write('/');
+  await settle();
+  stdin.write('\x1B[B'); // down arrow -> highlight /auth
+  await settle();
+  stdin.write('\r'); // Enter selects it
+  await settle();
+  assert.match(lastFrame(), /api keys/); // auth view opened
+  unmount();
+});
+
+test('a ! prefix runs a shell command and shows its output', async () => {
+  const { stdin, lastFrame, unmount } = render(<App />);
+  await settle();
+  await type(stdin, '!echo pixeltest123');
+  stdin.write('\r');
+  await new Promise((r) => setTimeout(r, 350)); // wait for the child process
+  assert.match(lastFrame(), /pixeltest123/);
+  unmount();
+});
+
+test('/fetch with no url shows a usage hint', async () => {
+  const { stdin, lastFrame, unmount } = render(<App />);
+  await settle();
+  await type(stdin, '/fetch');
+  stdin.write('\r');
+  await settle();
+  assert.match(lastFrame(), /usage: \/fetch/);
   unmount();
 });
 

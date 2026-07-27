@@ -1,6 +1,8 @@
 import React, { useState, useMemo, useRef, useCallback } from 'react';
 import { Box, Text, useInput, useApp } from 'ink';
-import { execFileSync } from 'node:child_process';
+import { execFileSync, exec } from 'node:child_process';
+import fs from 'node:fs';
+import path from 'node:path';
 import os from 'node:os';
 
 import Header from './components/Header.jsx';
@@ -13,6 +15,8 @@ import Banner from './components/Banner.jsx';
 import SlashHints from './components/SlashHints.jsx';
 import Sidebar from './components/Sidebar.jsx';
 import { buildTree } from './tree.js';
+import { fetchPage } from './web.js';
+import { extractLastCode, resolveFilename } from './save.js';
 import { theme, providerColor } from './theme.js';
 import { allModels, providerOf, streamChat } from './providers.js';
 import { getKey, setKey, deleteKey, authStatus } from './auth.js';
@@ -22,6 +26,8 @@ const COMMANDS = [
   { id: 'model', label: '/model', tag: 'switch model' },
   { id: 'auth', label: '/auth', tag: 'add or remove api keys' },
   { id: 'new', label: '/new', tag: 'clear this session' },
+  { id: 'save', label: '/save', tag: 'save last reply to a file (default .html)' },
+  { id: 'fetch', label: '/fetch', tag: 'read a web page into context' },
   { id: 'cost', label: '/cost', tag: 'token usage so far' },
   { id: 'help', label: '/help', tag: 'keybinds and commands' },
   { id: 'quit', label: '/quit', tag: 'exit pixelcli' },
@@ -63,6 +69,8 @@ export default function App() {
   const [entering, setEntering] = useState(false);
   const [keyDraft, setKeyDraft] = useState('');
   const [showSidebar, setShowSidebar] = useState(true);
+  const [slashIndex, setSlashIndex] = useState(0); // highlighted inline / suggestion
+  const [context, setContext] = useState([]); // fetched web pages, injected as reference
   const abortRef = useRef(null);
 
   const cwd = useMemo(shortCwd, []);
@@ -117,10 +125,19 @@ export default function App() {
       return;
     }
 
+    // Prepend any fetched web pages to the current question as reference context.
+    const ctxBlock = context.length
+      ? 'Reference material you may use to answer (fetched web pages):\n\n' +
+        context.map((c) => `--- ${c.url} ---\n${c.text}`).join('\n\n') +
+        '\n\n---\n\n'
+      : '';
+
     const history = [
-      ...turns.filter((t) => t.role === 'user' || t.role === 'assistant'),
-      { role: 'user', content: text },
-    ].map((t) => ({ role: t.role, content: t.content }));
+      ...turns
+        .filter((t) => t.role === 'user' || t.role === 'assistant')
+        .map((t) => ({ role: t.role, content: t.content })),
+      { role: 'user', content: ctxBlock + text },
+    ];
 
     const replyId = uid();
     setTurns((prev) => [
@@ -155,7 +172,66 @@ export default function App() {
     }
   }
 
-  function runCommand(id) {
+  function lastAssistant() {
+    for (let i = turns.length - 1; i >= 0; i--) {
+      if (turns[i].role === 'assistant' && turns[i].content) return turns[i].content;
+    }
+    return null;
+  }
+
+  // /save [name] — write the last reply's code (or text) to a file. Default .html.
+  function doSave(arg) {
+    const body = extractLastCode(lastAssistant());
+    if (!body) {
+      say('nothing to save yet — ask me for something first.', 'error');
+      return;
+    }
+    const name = resolveFilename(arg);
+    const target = path.resolve(process.cwd(), name);
+    const existed = fs.existsSync(target);
+    try {
+      fs.writeFileSync(target, body, 'utf8');
+      say(`${existed ? 'overwrote' : 'saved'} ${name} (${body.length} chars) → ${target}`);
+    } catch (err) {
+      say(`could not save ${name}: ${err.message}`, 'error');
+    }
+  }
+
+  // /fetch <url> — read a web page and keep it as reference context.
+  async function doFetch(arg) {
+    const url = (arg || '').trim();
+    if (!url) {
+      say('usage: /fetch <url>', 'error');
+      return;
+    }
+    say(`fetching ${url} …`);
+    try {
+      const page = await fetchPage(url, { limit: 6000, signal: AbortSignal.timeout(20000) });
+      setContext((c) => [...c.filter((x) => x.url !== page.url), { url: page.url, text: page.text }]);
+      say(
+        `fetched ${page.url} (${page.text.length} chars${page.truncated ? ', truncated' : ''}) — ` +
+          'added to context. ask me about it.',
+      );
+    } catch (err) {
+      say(`fetch failed: ${err.message}`, 'error');
+    }
+  }
+
+  // !<cmd> — run a shell command the user typed and show its output.
+  function runBash(cmd) {
+    say(`$ ${cmd}`);
+    exec(
+      cmd,
+      { cwd: process.cwd(), timeout: 30000, maxBuffer: 1024 * 1024 },
+      (err, stdout, stderr) => {
+        const out = `${stdout || ''}${stderr || ''}`.trim();
+        if (out) say(out.slice(0, 4000), err ? 'error' : undefined);
+        else say(`(no output · exit ${err?.code ?? 0})`, err ? 'error' : undefined);
+      },
+    );
+  }
+
+  function runCommand(id, arg) {
     resetPalette();
     if (id === 'model') {
       setView('models');
@@ -170,13 +246,19 @@ export default function App() {
     if (id === 'new') {
       setTurns([]);
       setUsage({ sent: 0, received: 0 });
+      setContext([]);
+    } else if (id === 'save') {
+      doSave(arg);
+    } else if (id === 'fetch') {
+      doFetch(arg);
     } else if (id === 'cost') {
       say(`this session: ⇡${usage.sent} ⇣${usage.received} tokens (estimated)`);
     } else if (id === 'help') {
       say(
         'commands  ' +
           COMMANDS.map((c) => c.label).join('  ') +
-          '\nkeys      ^p commands · ^o model · ^b sidebar · ^r stop · ^c quit',
+          '\nkeys      ^p commands · ^o model · ^b sidebar · ^r stop · ^c quit' +
+          '\nshell     start a line with ! to run a bash command',
       );
     } else if (id === 'quit') {
       exit();
@@ -188,15 +270,22 @@ export default function App() {
     setDraft('');
     setCursor(0);
     if (!text) return;
+    if (text.startsWith('!')) {
+      const cmd = text.slice(1).trim();
+      if (cmd) runBash(cmd);
+      return;
+    }
     if (text.startsWith('/')) {
-      const name = text.slice(1).split(' ')[0].toLowerCase();
+      const parts = text.slice(1).split(' ');
+      const name = parts[0].toLowerCase();
+      const arg = parts.slice(1).join(' ');
       // exact id first, otherwise resolve an unambiguous prefix (e.g. /mo -> /model)
       let cmd = COMMANDS.find((c) => c.id === name);
       if (!cmd) {
         const matches = COMMANDS.filter((c) => c.id.startsWith(name));
         if (matches.length === 1) cmd = matches[0];
       }
-      if (cmd) runCommand(cmd.id);
+      if (cmd) runCommand(cmd.id, arg);
       else say(`unknown command: ${text}`, 'error');
       return;
     }
@@ -242,18 +331,41 @@ export default function App() {
         setView('models');
         return;
       }
+
+      const hasSlash = slashItems.length > 0;
+      const slashPick = slashItems[Math.min(slashIndex, slashItems.length - 1)];
+
+      // Navigate the inline / suggestion list with arrows.
+      if (hasSlash && key.upArrow) {
+        setSlashIndex((i) => Math.max(0, i - 1));
+        return;
+      }
+      if (hasSlash && key.downArrow) {
+        setSlashIndex((i) => Math.min(slashItems.length - 1, i + 1));
+        return;
+      }
       if (key.tab) {
-        // autocomplete the top slash suggestion
-        const top = slashItems[0];
-        if (top) {
-          const completed = `${top.label} `;
+        if (slashPick) {
+          const completed = `${slashPick.label} `;
           setDraft(completed);
           setCursor(completed.length);
+          setSlashIndex(0);
         }
         return;
       }
-      if (key.return) return submitDraft();
+      if (key.return) {
+        // Enter selects the highlighted suggestion, else submits the line.
+        if (hasSlash && slashPick) {
+          setDraft('');
+          setCursor(0);
+          setSlashIndex(0);
+          runCommand(slashPick.id);
+          return;
+        }
+        return submitDraft();
+      }
       editLine(input, key, draft, cursor, setDraft, setCursor);
+      setSlashIndex(0); // the suggestion list changed, re-highlight the top
       return;
     }
 
@@ -360,10 +472,12 @@ export default function App() {
                 <Prompt
                   value={draft}
                   cursor={cursor}
-                  placeholder=" ask anything, or / for commands"
+                  placeholder=" ask anything · / commands · ! shell"
                 />
               </Box>
-              {slashItems.length > 0 ? <SlashHints items={slashItems} /> : null}
+              {slashItems.length > 0 ? (
+                <SlashHints items={slashItems} index={slashIndex} />
+              ) : null}
             </Box>
           ) : null}
         </Box>
@@ -374,6 +488,7 @@ export default function App() {
         sent={usage.sent}
         received={usage.received}
         busy={busy}
+        contextCount={context.length}
       />
     </Box>
   );

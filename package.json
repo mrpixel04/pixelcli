@@ -1,6 +1,6 @@
 {
   "name": "pixelcli",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "One terminal chat UI for Anthropic, DeepSeek, OpenAI and Gemini. Switch model mid-conversation without losing the thread.",
   "type": "module",
   "bin": {
@@ -17,7 +17,7 @@
     "build": "node scripts/build.mjs",
     "dev": "node scripts/build.mjs && node dist/cli.js",
     "start": "node dist/cli.js",
-    "test": "PIXELCLI_CONFIG_DIR=\"$(mktemp -d)\" node --import ./scripts/register.mjs --test test/keys.test.jsx test/stream.test.mjs"
+    "test": "PIXELCLI_CONFIG_DIR=\"$(mktemp -d)\" node --import ./scripts/register.mjs --test test/keys.test.jsx test/stream.test.mjs test/tools.test.mjs"
   },
   "devDependencies": {
     "esbuild": "^0.23.1",
